@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TerraTrace — Conformidade de Obra, Simplificada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --dark: #141414;
+    --sidebar: #1a1a2e;
+    --cream: #F5F0E8;
+    --cream-dark: #EDE7DA;
+    --terracotta: #C5522A;
+    --terracotta-light: #D4673E;
+    --terracotta-dark: #A8421E;
+    --green: #2D5A3D;
+    --green-light: #3D7A52;
+    --gold: #C9963A;
+    --text-dark: #1C1C1C;
+    --text-mid: #4A4A4A;
+    --text-light: #7A7A7A;
+    --white: #FFFFFF;
+    --card-bg: #FFFFFF;
+    --border: rgba(28,28,28,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 68px;
+    background: rgba(20,20,20,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo-mark {
+    width: 32px; height: 32px;
+    background: var(--terracotta);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 16px;
+    color: white;
+  }
+
+  .nav-logo-text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: 17px;
+    color: white;
+    letter-spacing: -0.3px;
+  }
+
+  .nav-logo-text span { color: var(--terracotta); }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 14px; font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.2px;
+  }
+
+  .nav-links a:hover { color: white; }
+
+  .nav-cta {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .btn-nav-login {
+    font-size: 14px; font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: color 0.2s;
+  }
+
+  .btn-nav-login:hover { color: white; }
+
+  .btn-nav-primary {
+    font-size: 14px; font-weight: 600;
+    color: white;
+    background: var(--terracotta);
+    text-decoration: none;
+    padding: 9px 20px;
+    border-radius: 6px;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.1px;
+  }
+
+  .btn-nav-primary:hover {
+    background: var(--terracotta-light);
+    transform: translateY(-1px);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--dark);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(197,82,42,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(197,82,42,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-bg-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(197,82,42,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(197,82,42,0.15);
+    border: 1px solid rgba(197,82,42,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px; font-weight: 500;
+    color: var(--terracotta-light);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .hero-badge-dot {
+    width: 6px; height: 6px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    line-height: 1.1;
+    max-width: 900px;
+    position: relative;
+    letter-spacing: -1px;
+  }
+
+  .hero-headline em {
+    font-style: normal;
+    color: var(--terracotta);
+  }
+
+  .hero-headline .underline-accent {
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-headline .underline-accent::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 3px;
+    background: var(--terracotta);
+    border-radius: 2px;
+  }
+
+  .hero-sub {
+    font-size: 18px; font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-top: 24px;
+    position: relative;
+  }
+
+  .hero-actions {
+    display: flex; align-items: center; gap: 16px;
+    margin-top: 48px;
+    position: relative;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--terracotta);
+    color: white;
+    font-size: 15px; font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.1px;
+  }
+
+  .btn-primary:hover {
+    background: var(--terracotta-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(197,82,42,0.35);
+  }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    font-size: 15px; font-weight: 400;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    color: white;
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .hero-proof {
+    display: flex; align-items: center; gap: 32px;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    width: 100%; max-width: 800px;
+    justify-content: center;
+  }
+
+  .hero-proof-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+
+  .hero-proof-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 600;
+    color: white;
+  }
+
+  .hero-proof-label {
+    font-size: 12px; font-weight: 400;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+
+  .hero-proof-divider {
+    width: 1px; height: 40px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 100px 48px; }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 20px; height: 2px;
+    background: var(--terracotta);
+    border-radius: 2px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    color: var(--text-dark);
+  }
+
+  .section-title.light { color: white; }
+
+  .section-sub {
+    font-size: 17px; font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.7;
+    max-width: 540px;
+    margin-top: 16px;
+  }
+
+  .section-sub.light { color: rgba(255,255,255,0.55); }
+
+  /* ── PROBLEM ── */
+  .problem {
+    background: var(--cream);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .problem-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .problem-cards {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .problem-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex; align-items: flex-start; gap: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .problem-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  }
+
+  .problem-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: rgba(197,82,42,0.08);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .problem-card-title {
+    font-size: 15px; font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+
+  .problem-card-desc {
+    font-size: 13px; font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how {
+    background: var(--sidebar);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .how::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(197,82,42,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(197,82,42,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  .how-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .how-header { margin-bottom: 64px; }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .how-step {
+    background: rgba(255,255,255,0.03);
+    padding: 40px 32px;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .how-step:hover { background: rgba(255,255,255,0.05); }
+
+  .how-step-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--terracotta);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+
+  .how-step-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .how-step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 600;
+    color: white;
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+
+  .how-step-desc {
+    font-size: 14px; font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+  }
+
+  /* ── FEATURES ── */
+  .features {
+    background: var(--cream);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .features-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 64px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .feature-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--terracotta);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .feature-card:hover::before { transform: scaleX(1); }
+
+  .feature-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--terracotta);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+
+  .feature-icon-wrap {
+    width: 56px; height: 56px;
+    background: rgba(197,82,42,0.08);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .feature-desc {
+    font-size: 14px; font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .feature-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+
+  .feature-list li {
+    font-size: 13px; font-weight: 400;
+    color: var(--text-mid);
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 16px; height: 16px; flex-shrink: 0;
+    background: rgba(197,82,42,0.1);
+    border-radius: 50%;
+    border: 1.5px solid var(--terracotta);
+    display: flex; align-items: center; justify-content: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 24 24' fill='none' stroke='%23C5522A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* ── PRICING ── */
+  .pricing-section {
+    background: var(--cream-dark);
+  }
+
+  .pricing-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .pricing-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .pricing-header .section-sub { margin: 16px auto 0; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .pricing-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    position: relative;
+  }
+
+  .pricing-card.featured {
+    background: var(--sidebar);
+    border-color: var(--terracotta);
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: -12px; right: 24px;
+    background: var(--terracotta);
+    color: white;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .pricing-tier {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+  }
+
+  .pricing-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px; font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .pricing-card.featured .pricing-price { color: white; }
+
+  .pricing-price span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px; font-weight: 400;
+    color: var(--text-light);
+  }
+
+  .pricing-card.featured .pricing-price span { color: rgba(255,255,255,0.5); }
+
+  .pricing-desc {
+    font-size: 14px; font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.1); }
+
+  .pricing-features {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .pricing-features li {
+    font-size: 14px; font-weight: 400;
+    color: var(--text-mid);
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.7); }
+
+  .pricing-check {
+    width: 18px; height: 18px; flex-shrink: 0;
+    background: rgba(197,82,42,0.1);
+    border-radius: 50%;
+    border: 1.5px solid var(--terracotta);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    color: var(--terracotta);
+  }
+
+  .btn-pricing {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.2px;
+  }
+
+  .btn-pricing-outline {
+    border: 1.5px solid var(--border);
+    color: var(--text-dark);
+  }
+
+  .btn-pricing-outline:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+  }
+
+  .btn-pricing-filled {
+    background: var(--terracotta);
+    color: white;
+    border: 1.5px solid var(--terracotta);
+  }
+
+  .btn-pricing-filled:hover {
+    background: var(--terracotta-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(197,82,42,0.3);
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(197,82,42,0.08) 0%, transparent 70%);
+    bottom: -100px; right: -100px;
+    pointer-events: none;
+  }
+
+  .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+  }
+
+  .about-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 400;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+    border-left: 3px solid var(--terracotta);
+    padding-left: 24px;
+    margin: 32px 0;
+  }
+
+  .about-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 32px;
+  }
+
+  .about-tag {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px; font-weight: 400;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .about-cards {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .about-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+
+  .about-card-icon {
+    font-size: 20px;
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: rgba(197,82,42,0.12);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .about-card-title {
+    font-size: 14px; font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .about-card-desc {
+    font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--terracotta);
+    padding: 80px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 600;
+    color: white;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cta-sub {
+    font-size: 17px; font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    max-width: 480px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .cta-actions {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    position: relative;
+  }
+
+  .btn-cta-white {
+    background: white;
+    color: var(--terracotta);
+    font-size: 15px; font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-cta-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  .btn-cta-outline {
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    font-size: 15px; font-weight: 400;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    transition: all 0.2s;
+  }
+
+  .btn-cta-outline:hover {
+    color: white;
+    border-color: rgba(255,255,255,0.6);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    padding: 48px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .footer-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+
+  .footer-logo-mark {
+    width: 28px; height: 28px;
+    background: var(--terracotta);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 13px;
+    color: white;
+  }
+
+  .footer-logo-text {
+    font-size: 15px; font-weight: 600;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .footer-logo-text span { color: var(--terracotta); }
+
+  .footer-links {
+    display: flex; gap: 24px; list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 13px; font-weight: 400;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: rgba(255,255,255,0.65); }
+
+  .footer-copy {
+    font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 64px 20px; }
+    .hero { padding: 100px 20px 64px; }
+    .problem-inner, .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .how-steps { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .features-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    .hero-proof { flex-wrap: wrap; gap: 20px; }
+    .hero-proof-divider { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">T</div>
+    <span class="nav-logo-text">Terra<span>Trace</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#como-funciona">Como Funciona</a></li>
+    <li><a href="#funcionalidades">Funcionalidades</a></li>
+    <li><a href="#precos">Preços</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#" class="btn-nav-login">Entrar</a>
+    <a href="#precos" class="btn-nav-primary">Começar Grátis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-bg-glow"></div>
+
+  <div class="hero-badge">
+    <div class="hero-badge-dot"></div>
+    Plataforma de Conformidade para Construtoras
+  </div>
+
+  <h1 class="hero-headline">
+    Sua obra em dia com a<br/>
+    <em class="underline-accent">AMMA</em>,<br/>
+    sem papelada.
+  </h1>
+
+  <p class="hero-sub">
+    Documentos, vistorias, RDOs e MTRs — tudo centralizado para construtoras de alto padrão no Ceará.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#precos" class="btn-primary">
+      Quero Acessar a Plataforma
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </a>
+    <a href="#como-funciona" class="btn-secondary">
+      Ver como funciona
+    </a>
+  </div>
+
+  <div class="hero-proof">
+    <div class="hero-proof-item">
+      <span class="hero-proof-number">4</span>
+      <span class="hero-proof-label">Módulos de<br/>Conformidade</span>
+    </div>
+    <div class="hero-proof-divider"></div>
+    <div class="hero-proof-item">
+      <span class="hero-proof-number">AMMA</span>
+      <span class="hero-proof-label">Templates oficiais<br/>pré-carregados</span>
+    </div>
+    <div class="hero-proof-divider"></div>
+    <div class="hero-proof-item">
+      <span class="hero-proof-number">100%</span>
+      <span class="hero-proof-label">Mobile-first,<br/>usável em obra</span>
+    </div>
+    <div class="hero-proof-divider"></div>
+    <div class="hero-proof-item">
+      <span class="hero-proof-number">0</span>
+      <span class="hero-proof-label">Papelada,<br/>tudo digital</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section style="background: var(--cream); padding: 100px 48px;">
+  <div class="problem-inner" style="max-width:1200px; margin: 0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;">
+    <div class="reveal">
+      <div class="section-label">O Problema</div>
+      <h2 class="section-title">Conformidade de obra ainda é caos.</h2>
+      <p class="section-sub">Engenheiros responsáveis no Ceará gerenciam documentos críticos em WhatsApp, e-mail e papel. Um alvará vencido pode embargar a obra inteira.</p>
+    </div>
+    <div class="problem-cards">
+      <div class="problem-card reveal reveal-delay-1">
+        <div class="problem-icon">📁</div>
+        <div>
+          <div class="problem-card-title">Documentos espalhados</div>
+          <div class="problem-card-desc">Licenças, alvarás e certidões em e-mails, WhatsApp e pastas físicas. Ninguém sabe o que está vencido.</div>
+        </div>
+      </div>
+      <div class="problem-card reveal reveal-delay-2">
+        <div class="problem-icon">📋</div>
+        <div>
+          <div class="problem-card-title">Vistorias AMMA sem controle</div>
+          <div class="problem-card-desc">Checklists em papel, preenchidos na correria. Itens críticos ficam para trás na hora da fiscalização.</div>
+        </div>
+      </div>
+      <div class="problem-card reveal reveal-delay-3">
+        <div class="problem-icon">⚠️</div>
+        <div>
+          <div class="problem-card-title">Risco de embargo</div>
+          <div class="problem-card-desc">Um documento vencido ou um RDO incompleto pode paralisar a obra e gerar multas pesadas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="como-funciona">
+  <div class="how-inner">
+    <div class="how-header reveal">
+      <div class="section-label" style="color: var(--terracotta);">Como Funciona</div>
+      <h2 class="section-title light">Três passos para uma obra em conformidade.</h2>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-step-number">01</div>
+        <span class="how-step-icon">🏗️</span>
+        <div class="how-step-title">Cadastre sua Obra</div>
+        <div class="how-step-desc">Crie o projeto em segundos. Adicione o endereço, o condomínio e o engenheiro responsável. Tudo organizado desde o primeiro dia.</div>
+      </div>
+      <div class="how-step reveal reveal-delay-1">
+        <div class="how-step-number">02</div>
+        <span class="how-step-icon">📄</span>
+        <div class="how-step-title">Organize a Documentação</div>
+        <div class="how-step-desc">Faça upload de alvarás, licenças e certidões. A plataforma alerta automaticamente quando um documento está próximo do vencimento.</div>
+      </div>
+      <div class="how-step reveal reveal-delay-2">
+        <div class="how-step-number">03</div>
+        <span class="how-step-icon">✅</span>
+        <div class="how-step-title">Gerencie com Confiança</div>
+        <div class="how-step-desc">Execute checklists AMMA no celular, registre RDOs diários e emita relatórios MTR. Sua obra sempre pronta para fiscalização.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="background: var(--cream); padding: 100px 48px;" id="funcionalidades">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="features-header reveal">
+      <div>
+        <div class="section-label">Funcionalidades</div>
+        <h2 class="section-title">Tudo que sua obra precisa<br/>para estar em dia.</h2>
+      </div>
+      <p style="font-size:14px; color:var(--text-light); max-width:240px; text-align:right; line-height:1.6;">Construído especificamente para o mercado de alto padrão do Ceará.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-number">F1</div>
+        <div class="feature-icon-wrap">🗄️</div>
+        <div class="feature-title">Cofre de Documentos</div>
+        <div class="feature-desc">Centralize todas as licenças, alvarás e certidões da obra. Alertas automáticos de vencimento antes que vire problema.</div>
+        <ul class="feature-list">
+          <li>Upload e organização por categoria</li>
+          <li>Badge de vencimento automático</li>
+          <li>Alertas por prazo de validade</li>
+          <li>Acesso rápido em qualquer dispositivo</li>
+        </ul>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-number">F2</div>
+        <div class="feature-icon-wrap">📋</div>
+        <div class="feature-title">Checklist de Vistoria AMMA</div>
+        <div class="feature-desc">Templates oficiais da AMMA pré-carregados. Execute a vistoria no celular, em obra, com registro fotográfico.</div>
+        <ul class="feature-list">
+          <li>Modelos AMMA prontos para uso</li>
+          <li>Preenchimento mobile em campo</li>
+          <li>Registro fotográfico por item</li>
+          <li>Relatório exportável em PDF</li>
+        </ul>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-number">F3</div>
+        <div class="feature-icon-wrap">📝</div>
+        <div class="feature-title">RDO Digital</div>
+        <div class="feature-desc">Substitua o diário de obra em papel. Registre atividades, efetivo, clima e ocorrências diretamente do celular.</div>
+        <ul class="feature-list">
+          <li>Formulário mobile otimizado</li>
+          <li>Registro de efetivo e atividades</li>
+          <li>Histórico completo da obra</li>
+          <li>Exportação e compartilhamento</li>
+        </ul>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-number">F4</div>
+        <div class="feature-icon-wrap">♻️</div>
+        <div class="feature-title">MTR Digital + PGRSCC</div>
+        <div class="feature-desc">Rastreamento de resíduos de construção e geração automática do PGRSCC — conformidade ambiental sem complicação.</div>
+        <ul class="feature-list">
+          <li>Registro de MTR por carga</li>
+          <li>Geração automática do PGRSCC</li>
+          <li>Conformidade com legislação vigente</li>
+          <li>Relatórios prontos para entrega</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section style="background: var(--cream-dark); padding: 100px 48px;" id="precos">
+  <div style="max-width: 1000px; margin: 0 auto;">
+    <div class="pricing-header reveal">
+      <div class="section-label" style="justify-content:center;">Planos</div>
+      <h2 class="section-title" style="text-align:center;">Simples. Transparente.<br/>Sem surpresas.</h2>
+      <p class="section-sub" style="margin:16px auto 0; text-align:center;">Comece gratuitamente durante o período beta. Sem cartão de crédito.</p>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="pricing-card">
+        <div class="pricing-tier">Beta Gratuito</div>
+        <div class="pricing-price">R$0<span>/mês</span></div>
+        <p class="pricing-desc">Acesso completo durante o período de lançamento. Ideal para construtoras que querem experimentar antes de contratar.</p>
+        <ul class="pricing-features">
+          <li><span class="pricing-check">✓</span> Até 3 obras ativas</li>
+          <li><span class="pricing-check">✓</span> Cofre de Documentos</li>
+          <li><span class="pricing-check">✓</span> Checklist AMMA</li>
+          <li><span class="pricing-check">✓</span> RDO Digital</li>
+          <li><span class="pricing-check">✓</span> Suporte por e-mail</li>
+        </ul>
+        <a href="#" class="btn-pricing btn-pricing-outline">Criar Conta Gratuita</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Em Breve</div>
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-price" style="color:white;">R$297<span>/mês</span></div>
+        <p class="pricing-desc">Para construtoras sérias. Obras ilimitadas, MTR Digital, PGRSCC automático e suporte prioritário.</p>
+        <ul class="pricing-features">
+          <li><span class="pricing-check">✓</span> Obras ilimitadas</li>
+          <li><span class="pricing-check">✓</span> Tudo do Beta, mais:</li>
+          <li><span class="pricing-check">✓</span> MTR Digital + PGRSCC</li>
+          <li><span class="pricing-check">✓</span> Relatórios avançados</li>
+          <li><span class="pricing-check">✓</span> Suporte prioritário</li>
+          <li><span class="pricing-check">✓</span> Multi-usuários</li>
+        </ul>
+        <a href="#" class="btn-pricing btn-pricing-filled">Entrar na Lista de Espera</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="sobre">
+  <div class="about-inner">
+    <div class="reveal">
+      <div class="section-label">Sobre</div>
+      <h2 class="section-title light">Construído em Fortaleza.<br/>Alicerçado em 20 anos<br/>de execução.</h2>
+      <blockquote class="about-quote">
+        "O objetivo não é apenas construir um produto — é construir a infraestrutura para a construção sustentável no Nordeste do Brasil."
+      </blockquote>
+      <p style="font-size:15px; font-weight:300; color:rgba(255,255,255,0.45); line-height:1.7;">
+        O TerraTrace nasceu da combinação de visão global em ESG e regulação — construída em 9 anos em Londres e 20 anos de experiência em plataformas — com conhecimento real do mercado de construção de alto padrão no Ceará.
+      </p>
+      <div class="about-tags">
+        <span class="about-tag">Londres → Fortaleza</span>
+        <span class="about-tag">ESG & Sustentabilidade</span>
+        <span class="about-tag">Alphaville Ceará</span>
+        <span class="about-tag">AMMA Compliance</span>
+        <span class="about-tag">Construção de Luxo</span>
+      </div>
+    </div>
+    <div class="about-cards reveal reveal-delay-1">
+      <div class="about-card">
+        <div class="about-card-icon">🏙️</div>
+        <div>
+          <div class="about-card-title">Mercado Local, Visão Global</div>
+          <div class="about-card-desc">Construído por quem conhece o mercado de Eusébio e Alphaville — e a regulação ESG europeia que está chegando ao Brasil.</div>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">⚖️</div>
+        <div>
+          <div class="about-card-title">AMMA como Autoridade</div>
+          <div class="about-card-desc">A plataforma é construída especificamente para os requisitos da AMMA — não uma solução genérica adaptada.</div>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🌱</div>
+        <div>
+          <div class="about-card-title">Roadmap ESG para 2027</div>
+          <div class="about-card-desc">Conformidade hoje. Certificação verde amanhã. Construção sustentável é o futuro do mercado de luxo no Brasil.</div>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">📍</div>
+        <div>
+          <div class="about-card-title">Parceiro de Design</div>
+          <div class="about-card-desc">Aceitamos construtoras parceiras para co-criar a plataforma em troca de acesso gratuito e influência direta nas funcionalidades.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="cta-title">Pronto para colocar sua obra<br/>em conformidade?</h2>
+  <p class="cta-sub">Acesse gratuitamente durante o beta. Seja um dos primeiros a usar o TerraTrace e ajude a moldar a plataforma.</p>
+  <div class="cta-actions">
+    <a href="#" class="btn-cta-white">Criar Conta Gratuita</a>
+    <a href="mailto:contato@terratrace.com.br" class="btn-cta-outline">Falar com a Equipe</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">
+      <div class="footer-logo-mark">T</div>
+      <span class="footer-logo-text">Terra<span>Trace</span></span>
+    </a>
+    <ul class="footer-links">
+      <li><a href="#como-funciona">Como Funciona</a></li>
+      <li><a href="#funcionalidades">Funcionalidades</a></li>
+      <li><a href="#precos">Preços</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="mailto:contato@terratrace.com.br">Contato</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 TerraTrace. Todos os direitos reservados.</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      nav.style.borderBottomColor = 'rgba(255,255,255,0.1)';
+    } else {
+      nav.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+    }
+  });
+</script>
+</body>
+</html>
