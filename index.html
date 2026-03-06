@@ -21,6 +21,8 @@
       --text-mid: #4A4A4A;
       --text-light: #7A7A7A;
       --border: rgba(28, 28, 28, 0.1);
+      --esg-green: #2D5A27;
+      --esg-green-light: #3D7A35;
     }
 
     * {
@@ -180,8 +182,10 @@
 
     /* HERO */
     .hero {
-      min-height: 100vh;
-      background: var(--dark);
+      min-height: 85vh;
+      background: linear-gradient(rgba(20, 20, 20, 0.85), rgba(20, 20, 20, 0.95)), url('assets/esg-hero.png');
+      background-size: cover;
+      background-position: center;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -263,7 +267,7 @@
 
     .hero-headline em {
       font-style: normal;
-      color: var(--terracotta);
+      color: var(--esg-green-light);
     }
 
     .hero-headline .underline-accent {
@@ -1248,14 +1252,13 @@
         data-en="Compliance Platform for Construction Companies">Plataforma de Conformidade para Construtoras</span>
     </div>
     <h1 class="hero-headline">
-      <span data-pt="Sua obra em dia com a<br/><em class='underline-accent'>AMMA</em>,<br/>sem papelada."
-        data-en="Your project compliant<br/>with <em class='underline-accent'>AMMA</em>,<br/>without the paperwork.">Sua
-        obra em dia com a<br /><em class="underline-accent">AMMA</em>,<br />sem papelada.</span>
+      <span data-pt="Engenharia de Conformidade & <em class='underline-accent'>ESG</em>"
+        data-en="Compliance Engineering & <em class='underline-accent'>ESG</em>">Engenharia de Conformidade & <em
+          class="underline-accent">ESG</em></span>
     </h1>
-    <p class="hero-sub"
-      data-pt="Documentos, vistorias, RDOs e MTRs — tudo centralizado para construtoras de alto padrão no Ceará."
-      data-en="Documents, inspections, daily reports and waste tracking — all centralized for luxury residential builders in Ceará.">
-      Documentos, vistorias, RDOs e MTRs — tudo centralizado para construtoras de alto padrão no Ceará.
+    <p class="hero-sub" data-pt="Sua obra em dia com a AMMA e vistorias ambientais. Tudo digital, rápido e sustentável."
+      data-en="Your project compliant with AMMA and environmental standards. All digital, fast, and sustainable.">
+      Sua obra em dia com a AMMA e vistorias ambientais. Tudo digital, rápido e sustentável.
     </p>
     <div class="hero-actions">
       <a href="https://app.terratrace.com.br/cadastro" class="btn-primary">
