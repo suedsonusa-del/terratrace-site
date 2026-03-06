@@ -236,6 +236,8 @@
   /* REVEAL */
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* Hero content always visible */
+  .hero .hero-badge, .hero .hero-headline, .hero .hero-sub, .hero .hero-actions, .hero .hero-proof { opacity: 1; transform: none; }
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.2s; }
   .reveal-delay-3 { transition-delay: 0.3s; }
@@ -272,8 +274,8 @@
   </ul>
   <div class="nav-cta">
     <div class="lang-toggle">
-      <button class="lang-btn active" onclick="setLang('pt')">PT</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
     </div>
     <a href="https://app.terratrace.com.br" class="btn-nav-login" data-pt="Entrar" data-en="Sign In">Entrar</a>
     <a href="https://app.terratrace.com.br/cadastro" class="btn-nav-primary" data-pt="Começar Grátis" data-en="Get Started Free">Começar Grátis</a>
@@ -594,12 +596,12 @@
 
   function setLang(lang) {
     currentLang = lang;
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
     document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
-
     document.querySelectorAll('[data-pt]').forEach(el => {
-      const text = el.getAttribute(`data-${lang}`);
+      const text = el.getAttribute('data-' + lang);
       if (!text) return;
       if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
         el.placeholder = text;
@@ -607,8 +609,6 @@
         el.innerHTML = text;
       }
     });
-
-    // Update page title
     document.title = lang === 'pt'
       ? 'TerraTrace — Conformidade de Obra, Simplificada'
       : 'TerraTrace — Construction Compliance, Simplified';
