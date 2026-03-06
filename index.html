@@ -129,16 +129,19 @@
     }
 
     .lang-btn {
-      font-size: 12px;
+      font-size: 18px;
       font-weight: 600;
       letter-spacing: 0.5px;
       color: rgba(255, 255, 255, 0.45);
       background: transparent;
       border: none;
       cursor: pointer;
-      padding: 5px 10px;
+      padding: 4px 8px;
       border-radius: 100px;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .lang-btn.active {
@@ -1236,8 +1239,8 @@
     </ul>
     <div class="nav-cta">
       <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')" title="Português (Brasil)">🇧🇷</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇺🇸</button>
       </div>
       <a href="https://app.terratrace.com.br" class="btn-nav-login" data-pt="Entrar" data-en="Sign In">Entrar</a>
       <a href="https://app.terratrace.com.br/cadastro" class="btn-nav-primary" data-pt="Começar Grátis"
