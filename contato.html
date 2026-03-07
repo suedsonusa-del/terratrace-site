@@ -1256,7 +1256,119 @@
     </div>
   </nav>
 
+  <!-- CONTACT PAGE CONTENT -->
+  <style>
+    .contact-page {
+      padding: 160px 48px 100px;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--cream);
+    }
 
+    .contact-inner {
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .contact-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 56px 48px;
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.04);
+    }
+
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .contact-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(197, 82, 42, 0.08);
+      /* Terracotta 8% */
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--terracotta);
+      flex-shrink: 0;
+    }
+
+    .contact-text {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a.contact-text:hover {
+      color: var(--terracotta);
+    }
+
+    .contact-tagline {
+      margin-top: 16px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--text-mid);
+      font-size: 16px;
+      width: 100%;
+    }
+  </style>
+
+  <main class="contact-page reveal">
+    <div class="contact-inner">
+      <div class="section-label" data-pt="Contato" data-en="Contact">Contato</div>
+      <h1 class="section-title" data-pt="Fale Conosco" data-en="Contact Us" style="margin-bottom: 16px;">
+        Fale Conosco
+      </h1>
+      <p class="section-sub" style="margin: 0 auto; max-width: 600px;"
+        data-pt="Tem dúvidas, quer agendar uma demonstração ou conhecer mais sobre o TerraTrace? Preparamos canais diretos para atender você."
+        data-en="Have questions, want to schedule a demo, or learn more about TerraTrace? We've set up direct channels to assist you.">
+        Tem dúvidas, quer agendar uma demonstração ou conhecer mais sobre o TerraTrace? Preparamos canais diretos para
+        atender você.
+      </p>
+
+      <div class="contact-card">
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">✉</div>
+            <a href="mailto:contato@terratrace.com.br" class="contact-text">contato@terratrace.com.br</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <a href="tel:+5585992172332" class="contact-text">+55 (85) 9 9217-2332</a>
+          </div>
+        </div>
+        <div class="contact-tagline">
+          Eusébio · Fortaleza · Ceará &nbsp;—&nbsp; Construindo o futuro da conformidade no Brasil.
+        </div>
+      </div>
+    </div>
+  </main>
 
   <!-- FOOTER -->
   <footer>
