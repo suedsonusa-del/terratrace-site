@@ -2112,7 +2112,13 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    // Supabase Initialization
+    const SUPABASE_URL = 'https://klrigwfnswksqcuhiqtx.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_41euKQjN5xF5y0mQFqqdaA_NYG3owe_';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     // modal logic
     const modal = document.getElementById('waitlist-modal');
     const formContainer = document.getElementById('waitlist-form-container');
@@ -2154,8 +2160,8 @@
       });
     });
 
-    // Handle dummy submission
-    function handleWaitlistSubmit(e) {
+    // Handle actual Supabase submission
+    async function handleWaitlistSubmit(e) {
       e.preventDefault();
       if (isSubmitting) return;
 
@@ -2165,23 +2171,38 @@
       submitBtn.innerText = 'Enviando...';
       submitBtn.disabled = true;
 
-      // Simulate network request so user feels it "went through" until we hook up a backend
-      setTimeout(() => {
+      try {
         // Collect data
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
-        console.log('Waitlist Submission Data:', data);
+
+        const { error } = await supabaseClient
+          .from('waitlist')
+          .insert([{
+            nome: data.nome,
+            empresa: data.empresa,
+            obras_ativas: data.obras,
+            desafio: data.desafio,
+            whatsapp: data.whatsapp
+          }]);
+
+        if (error) {
+          throw error;
+        }
 
         // Show success
         formContainer.style.display = 'none';
         successContainer.classList.add('active');
 
+      } catch (err) {
+        console.error('Waitlist capture error:', err);
+        alert('Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.');
+      } finally {
         // Reset state
         isSubmitting = false;
         submitBtn.innerText = originalText;
         submitBtn.disabled = false;
-
-      }, 1200);
+      }
     }
   </script>
 </body>
