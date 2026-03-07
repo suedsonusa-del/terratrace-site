@@ -1040,6 +1040,82 @@
       border-color: rgba(255, 255, 255, 0.6);
     }
 
+    /* CONTACT */
+    .contact {
+      background: var(--cream-dark);
+      padding: 100px 48px;
+    }
+
+    .contact-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      align-items: center;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.04);
+    }
+
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(197, 82, 42, 0.08);
+      /* Terracotta 8% */
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--terracotta);
+      flex-shrink: 0;
+    }
+
+    .contact-text {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a.contact-text:hover {
+      color: var(--terracotta);
+    }
+
+    .contact-tagline {
+      margin-top: 16px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--text-mid);
+      font-size: 15px;
+      width: 100%;
+    }
+
     /* FOOTER */
     footer {
       background: var(--dark);
@@ -1698,6 +1774,37 @@
         data-en="Create Free Account">Criar Conta Gratuita</a>
       <a href="/cdn-cgi/l/email-protection#32515d5c4653465d72465740405346405351571c515d5f1c5040" class="btn-cta-outline"
         data-pt="Falar com a Equipe" data-en="Talk to the Team">Falar com a Equipe</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contato" class="contact reveal">
+    <div class="contact-inner">
+      <div class="section-label" data-pt="Contato" data-en="Contact">Contato</div>
+      <h2 class="section-title" data-pt="Fale Conosco" data-en="Contact Us">
+        Fale Conosco
+      </h2>
+      <p class="section-sub" style="margin: 16px auto 0;"
+        data-pt="Tem dúvidas ou quer conhecer mais sobre o TerraTrace? Entre em contato agora."
+        data-en="Have questions or want to learn more about TerraTrace? Get in touch now.">
+        Tem dúvidas ou quer conhecer mais sobre o TerraTrace? Entre em contato agora.
+      </p>
+
+      <div class="contact-card">
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">✉</div>
+            <a href="mailto:contato@terratrace.com.br" class="contact-text">contato@terratrace.com.br</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <a href="tel:+5585992172332" class="contact-text">+55 (85) 9 9217-2332</a>
+          </div>
+        </div>
+        <div class="contact-tagline">
+          Eusébio · Fortaleza · Ceará &nbsp;—&nbsp; Construindo o futuro da conformidade no Brasil.
+        </div>
+      </div>
     </div>
   </section>
 
