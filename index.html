@@ -2045,6 +2045,13 @@
           </div>
 
           <div class="form-group">
+            <label class="form-label" for="wl-email" data-pt="E-mail *" data-en="E-mail *">E-mail
+              <span>*</span></label>
+            <input type="email" id="wl-email" name="email" class="form-input" required placeholder="joao@exemplo.com.br"
+              data-pt="joao@exemplo.com.br" data-en="john@example.com">
+          </div>
+
+          <div class="form-group">
             <label class="form-label" for="wl-empresa" data-pt="Empresa / Construtora *"
               data-en="Company / Builder *">Empresa / Construtora <span>*</span></label>
             <input type="text" id="wl-empresa" name="empresa" class="form-input" required
@@ -2180,6 +2187,7 @@
           .from('waitlist')
           .insert([{
             nome: data.nome,
+            email: data.email,
             empresa: data.empresa,
             obras_ativas: data.obras,
             desafio: data.desafio,
