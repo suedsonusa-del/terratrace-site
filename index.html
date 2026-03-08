@@ -199,17 +199,75 @@
     }
 
     .nav-cta {
-      background: var(--teal);
-      color: white !important;
-      padding: 9px 20px;
-      border-radius: 7px;
-      font-weight: 500 !important;
-      transition: background 0.2s !important;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .nav-cta:hover {
-      background: var(--teal-light) !important;
-      color: white !important;
+    /* Language Toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 100px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: rgba(255, 255, 255, 0.45);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 100px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lang-btn.active {
+      background: var(--teal);
+      color: white;
+    }
+
+    .lang-btn:hover:not(.active) {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .btn-nav-login {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--stone-light);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: color 0.2s;
+    }
+
+    .btn-nav-login:hover {
+      color: white;
+    }
+
+    .btn-nav-primary {
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      background: var(--teal);
+      text-decoration: none;
+      padding: 9px 20px;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-nav-primary:hover {
+      background: var(--teal-light);
+      transform: translateY(-1px);
     }
 
     /* ── HERO ── */
@@ -1349,11 +1407,22 @@
           <span class="nav-logo-text">TerraTrace</span>
         </a>
         <ul class="nav-links">
-          <li><a href="#features">Funcionalidades</a></li>
-          <li><a href="#como-funciona">Como Funciona</a></li>
-          <li><a href="#roadmap">Roadmap</a></li>
-          <li><a href="#contato" class="nav-cta">Solicitar Acesso</a></li>
+          <li><a href="#como-funciona" data-pt="Como Funciona" data-en="How It Works">Como Funciona</a></li>
+          <li><a href="#features" data-pt="Funcionalidades" data-en="Features">Funcionalidades</a></li>
+          <li><a href="#roadmap" data-pt="Roadmap" data-en="Roadmap">Roadmap</a></li>
+          <li><a href="/contato.html" data-pt="Solicitar Acesso" data-en="Request Access">Solicitar Acesso</a></li>
         </ul>
+        <div class="nav-cta">
+          <div class="lang-toggle">
+            <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')"
+              title="Português (Brasil)">🇧🇷</button>
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇺🇸</button>
+          </div>
+          <a href="https://app.terratrace.com.br/login" class="btn-nav-login" data-pt="Entrar"
+            data-en="Sign In">Entrar</a>
+          <a href="https://app.terratrace.com.br/cadastro" class="btn-nav-primary" data-pt="Começar Grátis"
+            data-en="Get Started Free">Começar Grátis</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -1801,7 +1870,7 @@
         <div class="footer-links">
           <a href="#features">Funcionalidades</a>
           <a href="#roadmap">Roadmap</a>
-          <a href="#contato">Contato</a>
+          <a href="/contato.html">Contato</a>
           <a href="#">Privacidade</a>
         </div>
         <span class="footer-copy">© 2026 TerraTrace · terratrace.com.br</span>
@@ -2152,6 +2221,38 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    // ── LANGUAGE TOGGLE ──
+    let currentLang = 'pt';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+      document.querySelectorAll('[data-pt]').forEach(el => {
+        const text = el.getAttribute('data-' + lang);
+        if (!text) return;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = text;
+        } else {
+          el.innerHTML = text;
+        }
+      });
+      document.title = lang === 'pt'
+        ? 'TerraTrace — Compliance Inteligente para Construtoras de Alto Padrão'
+        : 'TerraTrace — Smart Compliance for High-End Construction';
+    }
+
+    // Handle URL parameter on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const lang = params.get('lang');
+      if (lang === 'en' || lang === 'pt') {
+        setLang(lang);
+      }
+    });
+
     // Supabase Initialization
     const SUPABASE_URL = 'https://klrigwfnswksqcuhiqtx.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_41euKQjN5xF5y0mQFqqdaA_NYG3owe_';
