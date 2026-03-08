@@ -2,34 +2,41 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TerraTrace — Conformidade de Obra, Simplificada</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TerraTrace — Compliance Inteligente para Construtoras de Alto Padrão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
-    rel="stylesheet" />
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
   <style>
     :root {
-      --dark: #141414;
-      --sidebar: #1a1a2e;
-      --cream: #F5F0E8;
-      --cream-dark: #EDE7DA;
-      --terracotta: #C5522A;
-      --terracotta-light: #D4673E;
-      --text-dark: #1C1C1C;
-      --text-mid: #4A4A4A;
-      --text-light: #7A7A7A;
-      --border: rgba(28, 28, 28, 0.1);
-      --esg-green: #2D5A27;
-      --esg-green-light: #3D7A35;
+      --teal: #0D9488;
+      --teal-light: #14B8A6;
+      --teal-dim: #0F766E;
+      --teal-glow: rgba(13, 148, 136, 0.15);
+      --teal-faint: rgba(13, 148, 136, 0.06);
+      --ink: #0A0F0D;
+      --ink-soft: #1A2420;
+      --stone: #8A9490;
+      --stone-light: #B4BDB9;
+      --cream: #F4F7F5;
+      --cream-deep: #E8EDEA;
+      --white: #FFFFFF;
+      --red: #DC2626;
+      --amber: #D97706;
+      --green: #16A34A;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
     }
 
-    * {
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     html {
@@ -37,27 +44,107 @@
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: var(--text-dark);
+      font-family: var(--font-body);
+      background: var(--ink);
+      color: var(--white);
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    /* NAV */
+    /* ── ANIMATED BACKGROUND ── */
+    .bg-field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: var(--ink);
+      overflow: hidden;
+    }
+
+    .bg-field::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: -20%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(ellipse, rgba(13, 148, 136, 0.12) 0%, transparent 70%);
+      animation: drift1 18s ease-in-out infinite alternate;
+    }
+
+    .bg-field::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      right: -10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(ellipse, rgba(13, 148, 136, 0.07) 0%, transparent 70%);
+      animation: drift2 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift1 {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+
+      to {
+        transform: translate(8%, 5%) scale(1.1);
+      }
+    }
+
+    @keyframes drift2 {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+
+      to {
+        transform: translate(-5%, -8%) scale(1.08);
+      }
+    }
+
+    /* Grid overlay */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(13, 148, 136, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13, 148, 136, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 40%, transparent 80%);
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 100;
+      padding: 20px 0;
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+
+    nav.scrolled {
+      background: rgba(10, 15, 13, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+    }
+
+    .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 48px;
-      height: 68px;
-      background: rgba(20, 20, 20, 0.96);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .nav-logo {
@@ -68,29 +155,27 @@
     }
 
     .nav-logo-mark {
-      width: 36px;
-      height: 36px;
-      background: var(--terracotta);
-      border-radius: 7px;
+      width: 34px;
+      height: 34px;
+      background: var(--teal);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 18px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 16px;
       color: white;
+      letter-spacing: -0.5px;
       flex-shrink: 0;
     }
 
     .nav-logo-text {
-      font-weight: 600;
-      font-size: 17px;
-      color: white;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--white);
       letter-spacing: -0.3px;
-    }
-
-    .nav-logo-text span {
-      color: var(--terracotta);
     }
 
     .nav-links {
@@ -103,151 +188,63 @@
     .nav-links a {
       font-size: 14px;
       font-weight: 400;
-      color: rgba(255, 255, 255, 0.65);
+      color: var(--stone-light);
       text-decoration: none;
+      letter-spacing: 0.2px;
       transition: color 0.2s;
     }
 
     .nav-links a:hover {
-      color: white;
+      color: var(--white);
     }
 
     .nav-cta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* Language Toggle */
-    .lang-toggle {
-      display: flex;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 100px;
-      padding: 3px;
-      gap: 2px;
-    }
-
-    .lang-btn {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      color: rgba(255, 255, 255, 0.45);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 100px;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lang-btn.active {
-      background: var(--terracotta);
-      color: white;
-    }
-
-    .lang-btn:hover:not(.active) {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .btn-nav-login {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      transition: color 0.2s;
-    }
-
-    .btn-nav-login:hover {
-      color: white;
-    }
-
-    .btn-nav-primary {
-      font-size: 14px;
-      font-weight: 600;
-      color: white;
-      background: var(--terracotta);
-      text-decoration: none;
+      background: var(--teal);
+      color: white !important;
       padding: 9px 20px;
-      border-radius: 6px;
-      transition: background 0.2s, transform 0.15s;
+      border-radius: 7px;
+      font-weight: 500 !important;
+      transition: background 0.2s !important;
     }
 
-    .btn-nav-primary:hover {
-      background: var(--terracotta-light);
-      transform: translateY(-1px);
+    .nav-cta:hover {
+      background: var(--teal-light) !important;
+      color: white !important;
     }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
-      min-height: 85vh;
-      background: linear-gradient(rgba(20, 20, 20, 0.85), rgba(20, 20, 20, 0.95)), url('assets/esg-hero.png');
-      background-size: cover;
-      background-position: center;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 120px 48px 80px;
+      padding: 120px 0 80px;
       position: relative;
-      overflow: hidden;
     }
 
-    .hero-bg-grid {
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(197, 82, 42, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(197, 82, 42, 0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-
-    .hero-bg-glow {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(197, 82, 42, 0.12) 0%, transparent 70%);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      text-align: center;
       gap: 8px;
-      background: rgba(74, 222, 128, 0.15);
-      /* Brighter green tint */
-      border: 1px solid rgba(74, 222, 128, 0.3);
+      background: var(--teal-faint);
+      border: 1px solid rgba(13, 148, 136, 0.25);
       border-radius: 100px;
-      padding: 6px 16px;
-      font-size: 12px;
-      font-weight: 500;
-      color: #bbf7d0;
-      /* Very light green for high contrast readability */
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 32px;
-      position: relative;
+      padding: 6px 14px 6px 8px;
+      margin-bottom: 28px;
     }
 
-    .hero-badge-dot {
+    .badge-dot {
       width: 6px;
       height: 6px;
-      background: #4ade80;
-      /* Vibrant green dot */
+      background: var(--teal-light);
       border-radius: 50%;
-      animation: pulse 2s infinite;
-      flex-shrink: 0;
-      /* Prevent dot from shrinking on mobile */
+      animation: pulse 2s ease-in-out infinite;
     }
 
     @keyframes pulse {
@@ -264,76 +261,65 @@
       }
     }
 
-    .hero-headline {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(42px, 6vw, 80px);
-      font-weight: 600;
-      color: white;
-      text-align: center;
-      line-height: 1.1;
-      max-width: 900px;
+    .badge-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--teal-light);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 5vw, 62px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .hero-title .accent {
+      color: var(--teal-light);
       position: relative;
-      letter-spacing: -1px;
-    }
-
-    .hero-headline em {
-      font-style: normal;
-      color: var(--esg-green-light);
-    }
-
-    .hero-headline .underline-accent {
-      position: relative;
-      display: inline-block;
-    }
-
-    .hero-headline .underline-accent::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--terracotta);
-      border-radius: 2px;
     }
 
     .hero-sub {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 300;
-      color: rgba(255, 255, 255, 0.55);
-      text-align: center;
-      max-width: 560px;
+      color: var(--stone-light);
       line-height: 1.7;
-      margin-top: 24px;
-      position: relative;
+      margin-bottom: 40px;
+      max-width: 480px;
     }
 
     .hero-actions {
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-top: 48px;
-      position: relative;
+      flex-wrap: wrap;
     }
 
     .btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      background: var(--terracotta);
+      gap: 8px;
+      background: var(--teal);
       color: white;
-      font-size: 15px;
-      font-weight: 600;
       padding: 14px 28px;
-      border-radius: 8px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
       text-decoration: none;
-      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: -0.2px;
     }
 
     .btn-primary:hover {
-      background: var(--terracotta-light);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(197, 82, 42, 0.35);
+      background: var(--teal-light);
+      transform: translateY(-1px);
     }
 
     .btn-secondary {
@@ -341,78 +327,372 @@
       align-items: center;
       gap: 8px;
       background: transparent;
-      color: rgba(255, 255, 255, 0.65);
+      color: var(--stone-light);
+      padding: 14px 28px;
+      border-radius: 10px;
       font-size: 15px;
       font-weight: 400;
-      padding: 14px 24px;
-      border-radius: 8px;
       text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      transition: all 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
     }
 
     .btn-secondary:hover {
-      color: white;
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: var(--white);
     }
 
-    .hero-proof {
+    .hero-trust {
+      margin-top: 48px;
       display: flex;
       align-items: center;
-      gap: 32px;
-      margin-top: 64px;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      position: relative;
-      width: 100%;
-      max-width: 800px;
-      justify-content: center;
+      gap: 20px;
     }
 
-    .hero-proof-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      flex: 1 1 160px;
-      min-width: 140px;
-    }
-
-    .hero-proof-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 600;
-      color: white;
-    }
-
-    .hero-proof-label {
-      font-size: 12px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.4);
-      text-align: center;
-      letter-spacing: 0.3px;
-    }
-
-    .hero-proof-divider {
+    .trust-line {
       width: 1px;
-      height: 40px;
+      height: 32px;
       background: rgba(255, 255, 255, 0.1);
     }
 
-    /* SECTIONS */
+    .trust-item {
+      font-size: 12px;
+      color: var(--stone);
+      letter-spacing: 0.3px;
+    }
+
+    .trust-item strong {
+      color: var(--stone-light);
+      font-weight: 500;
+    }
+
+    /* ── HERO VISUAL ── */
+    .hero-visual {
+      position: relative;
+    }
+
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.5), transparent);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--teal-glow);
+      border: 1px solid rgba(13, 148, 136, 0.3);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .card-label {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.2px;
+    }
+
+    .card-sub {
+      font-size: 11px;
+      color: var(--stone);
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(22, 163, 74, 0.12);
+      border: 1px solid rgba(22, 163, 74, 0.25);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 11px;
+      color: #4ade80;
+      font-family: var(--font-mono);
+    }
+
+    .status-dot {
+      width: 5px;
+      height: 5px;
+      background: #4ade80;
+      border-radius: 50%;
+    }
+
+    .obra-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .obra-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px 14px;
+      transition: background 0.2s;
+      cursor: default;
+    }
+
+    .obra-item:hover {
+      background: rgba(13, 148, 136, 0.06);
+      border-color: rgba(13, 148, 136, 0.2);
+    }
+
+    .obra-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .obra-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: -0.2px;
+    }
+
+    .obra-meta {
+      font-size: 11px;
+      color: var(--stone);
+      font-family: var(--font-mono);
+    }
+
+    .obra-badges {
+      display: flex;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      padding: 3px 8px;
+      border-radius: 5px;
+      letter-spacing: 0.3px;
+    }
+
+    .chip-ok {
+      background: rgba(22, 163, 74, 0.12);
+      color: #4ade80;
+      border: 1px solid rgba(22, 163, 74, 0.2);
+    }
+
+    .chip-warn {
+      background: rgba(217, 119, 6, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(217, 119, 6, 0.25);
+    }
+
+    .chip-alert {
+      background: rgba(220, 38, 38, 0.12);
+      color: #f87171;
+      border: 1px solid rgba(220, 38, 38, 0.2);
+    }
+
+    .chip-ai {
+      background: rgba(13, 148, 136, 0.12);
+      color: var(--teal-light);
+      border: 1px solid rgba(13, 148, 136, 0.25);
+    }
+
+    /* AI insight card */
+    .ai-insight {
+      margin-top: 14px;
+      background: var(--teal-faint);
+      border: 1px solid rgba(13, 148, 136, 0.2);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .ai-icon {
+      width: 20px;
+      height: 20px;
+      background: rgba(13, 148, 136, 0.2);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .ai-text {
+      font-size: 12px;
+      color: var(--stone-light);
+      line-height: 1.5;
+    }
+
+    .ai-text strong {
+      color: var(--teal-light);
+      font-weight: 500;
+    }
+
+    /* Floating mini cards */
+    .float-card {
+      position: absolute;
+      background: rgba(10, 15, 13, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px 14px;
+      backdrop-filter: blur(16px);
+      z-index: 2;
+    }
+
+    .float-card-1 {
+      right: -24px;
+      top: 30%;
+      animation: floatA 6s ease-in-out infinite;
+    }
+
+    .float-card-2 {
+      left: -20px;
+      bottom: 15%;
+      animation: floatB 7s ease-in-out infinite 1s;
+    }
+
+    @keyframes floatA {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes floatB {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(6px);
+      }
+    }
+
+    .float-label {
+      font-size: 10px;
+      color: var(--stone);
+      font-family: var(--font-mono);
+      margin-bottom: 4px;
+    }
+
+    .float-value {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .float-value.teal {
+      color: var(--teal-light);
+    }
+
+    .float-sub {
+      font-size: 10px;
+      color: var(--stone);
+      margin-top: 1px;
+    }
+
+    /* ── LOGOS / SOCIAL PROOF ── */
+    .proof-band {
+      padding: 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      z-index: 1;
+    }
+
+    .proof-inner {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .proof-label {
+      font-size: 11px;
+      color: var(--stone);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      flex-shrink: 0;
+    }
+
+    .proof-items {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .proof-item {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.25);
+      letter-spacing: -0.3px;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTIONS ── */
     section {
-      padding: 100px 48px;
+      position: relative;
+      z-index: 1;
     }
 
     .section-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      font-family: var(--font-mono);
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
+      color: var(--teal-light);
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: var(--terracotta);
       margin-bottom: 16px;
     }
 
@@ -420,813 +700,636 @@
       content: '';
       display: block;
       width: 20px;
-      height: 2px;
-      background: var(--terracotta);
-      border-radius: 2px;
+      height: 1px;
+      background: var(--teal);
     }
 
     .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 4vw, 52px);
-      font-weight: 600;
-      line-height: 1.15;
-      letter-spacing: -0.5px;
-      color: var(--text-dark);
-    }
-
-    .section-title.light {
-      color: white;
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 46px);
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 16px;
     }
 
     .section-sub {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 300;
-      color: var(--text-mid);
+      color: var(--stone-light);
       line-height: 1.7;
       max-width: 540px;
-      margin-top: 16px;
     }
 
-    .section-sub.light {
-      color: rgba(255, 255, 255, 0.55);
+    /* ── PROBLEM SECTION ── */
+    .problem-section {
+      padding: 100px 0;
     }
 
-    /* PROBLEM */
-    .problem-inner {
+    .problem-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
+      gap: 60px;
+      align-items: start;
+      margin-top: 60px;
     }
 
-    .problem-cards {
+    .problem-list {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
     }
 
-    .problem-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
+    .problem-item {
       display: flex;
-      align-items: flex-start;
       gap: 16px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    .problem-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    .problem-item:hover {
+      border-color: rgba(220, 38, 38, 0.2);
+      background: rgba(220, 38, 38, 0.03);
     }
 
     .problem-icon {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      background: rgba(197, 82, 42, 0.08);
-      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.15);
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 16px;
+      flex-shrink: 0;
     }
 
-    .problem-card-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-dark);
+    .problem-text strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
       margin-bottom: 4px;
     }
 
-    .problem-card-desc {
+    .problem-text span {
       font-size: 13px;
-      font-weight: 300;
-      color: var(--text-mid);
-      line-height: 1.6;
+      color: var(--stone);
+      line-height: 1.5;
     }
 
-    /* HOW */
-    .how {
-      background: var(--sidebar);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .how::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(197, 82, 42, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(197, 82, 42, 0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-    }
-
-    .how-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .how-header {
-      margin-bottom: 64px;
-    }
-
-    .how-steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: rgba(255, 255, 255, 0.06);
+    .problem-callout {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 16px;
-      overflow: hidden;
+      padding: 32px;
+      position: sticky;
+      top: 100px;
     }
 
-    .how-step {
-      background: rgba(255, 255, 255, 0.03);
-      padding: 40px 32px;
-      position: relative;
-      transition: background 0.2s;
-    }
-
-    .how-step:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .how-step-number {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--terracotta);
-      letter-spacing: 2px;
+    .callout-quote {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
+      color: var(--white);
       margin-bottom: 20px;
     }
 
-    .how-step-icon {
-      font-size: 32px;
-      margin-bottom: 16px;
-      display: block;
+    .callout-quote .accent {
+      color: var(--teal-light);
     }
 
-    .how-step-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 12px;
-      line-height: 1.25;
-    }
-
-    .how-step-desc {
+    .callout-detail {
       font-size: 14px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.5);
-      line-height: 1.7;
+      color: var(--stone-light);
+      line-height: 1.6;
     }
 
-    /* FEATURES */
+    .callout-stat {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--teal-light);
+      letter-spacing: -1px;
+    }
+
+    .stat-desc {
+      font-size: 12px;
+      color: var(--stone);
+      margin-top: 2px;
+    }
+
+    /* ── FEATURES / AI SECTION ── */
+    .features-section {
+      padding: 100px 0;
+    }
+
     .features-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 60px;
     }
 
     .features-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
+      gap: 20px;
     }
 
     .feature-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 40px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 28px;
+      transition: border-color 0.25s, background 0.25s, transform 0.2s;
+      cursor: default;
       position: relative;
       overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
     .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+      border-color: rgba(13, 148, 136, 0.25);
+      background: rgba(13, 148, 136, 0.04);
+      transform: translateY(-2px);
     }
 
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--terracotta);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
+    .feature-card:hover::after {
+      opacity: 1;
     }
 
-    .feature-card:hover::before {
-      transform: scaleX(1);
+    .feature-card.featured {
+      grid-column: span 2;
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(13, 148, 136, 0.03));
+      border-color: rgba(13, 148, 136, 0.2);
     }
 
-    .feature-number {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--terracotta);
-      letter-spacing: 2px;
-      margin-bottom: 20px;
+    .feature-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--stone);
+      letter-spacing: 1px;
+      margin-bottom: 16px;
     }
 
-    .feature-icon-wrap {
-      width: 56px;
-      height: 56px;
-      background: rgba(197, 82, 42, 0.08);
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--teal-glow);
+      border: 1px solid rgba(13, 148, 136, 0.25);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
-      margin-bottom: 20px;
-    }
-
-    .feature-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 12px;
-      line-height: 1.2;
-    }
-
-    .feature-desc {
-      font-size: 14px;
-      font-weight: 300;
-      color: var(--text-mid);
-      line-height: 1.7;
-      margin-bottom: 24px;
-    }
-
-    .feature-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .feature-list li {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--text-mid);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .feature-list li::before {
-      content: '';
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-      background: rgba(197, 82, 42, 0.1);
-      border-radius: 50%;
-      border: 1.5px solid var(--terracotta);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 24 24' fill='none' stroke='%23C5522A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-
-    /* PRICING */
-    .pricing-header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-
-    .pricing-header .section-sub {
-      margin: 16px auto 0;
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 24px;
-      align-items: start;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .pricing-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 40px;
-      position: relative;
-    }
-
-    .pricing-card.featured {
-      background: var(--sidebar);
-      border-color: var(--terracotta);
-    }
-
-    .pricing-badge {
-      position: absolute;
-      top: -12px;
-      right: 24px;
-      background: var(--terracotta);
-      color: white;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 100px;
-    }
-
-    .pricing-tier {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--terracotta);
+      font-size: 20px;
       margin-bottom: 16px;
     }
 
-    .pricing-price {
-      font-family: 'Playfair Display', serif;
-      font-size: 48px;
-      font-weight: 600;
-      color: var(--text-dark);
-      line-height: 1;
+    .feature-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--white);
       margin-bottom: 8px;
     }
 
-    .pricing-card.featured .pricing-price {
-      color: white;
-    }
-
-    .pricing-price span {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      color: var(--text-light);
-    }
-
-    .pricing-card.featured .pricing-price span {
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    .pricing-desc {
-      font-size: 14px;
-      font-weight: 300;
-      color: var(--text-mid);
+    .feature-desc {
+      font-size: 13px;
+      color: var(--stone-light);
       line-height: 1.6;
-      margin-bottom: 32px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
     }
 
-    .pricing-card.featured .pricing-desc {
-      color: rgba(255, 255, 255, 0.5);
-      border-color: rgba(255, 255, 255, 0.1);
+    .feature-ai-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(13, 148, 136, 0.1);
+      border: 1px solid rgba(13, 148, 136, 0.2);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--teal-light);
     }
 
-    .pricing-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 32px;
-    }
-
-    .pricing-features li {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-mid);
+    .features-cta-bar {
+      margin-top: 48px;
+      padding: 28px 32px;
+      background: rgba(13, 148, 136, 0.06);
+      border: 1px solid rgba(13, 148, 136, 0.18);
+      border-radius: 14px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      gap: 24px;
     }
 
-    .pricing-card.featured .pricing-features li {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .pricing-check {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      background: rgba(197, 82, 42, 0.1);
-      border-radius: 50%;
-      border: 1.5px solid var(--terracotta);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      color: var(--terracotta);
-    }
-
-    .btn-pricing {
+    .cta-bar-text strong {
       display: block;
-      text-align: center;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-pricing-outline {
-      border: 1.5px solid var(--border);
-      color: var(--text-dark);
-    }
-
-    .btn-pricing-outline:hover {
-      border-color: var(--terracotta);
-      color: var(--terracotta);
-    }
-
-    .btn-pricing-filled {
-      background: var(--terracotta);
-      color: white;
-      border: 1.5px solid var(--terracotta);
-    }
-
-    .btn-pricing-filled:hover {
-      background: var(--terracotta-light);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(197, 82, 42, 0.3);
-    }
-
-    /* ABOUT */
-    .about {
-      background: var(--dark);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .about::before {
-      content: '';
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(197, 82, 42, 0.08) 0%, transparent 70%);
-      bottom: -100px;
-      right: -100px;
-      pointer-events: none;
-    }
-
-    .about-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-      position: relative;
-    }
-
-    .about-quote {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      font-weight: 400;
-      font-style: italic;
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.6;
-      border-left: 3px solid var(--terracotta);
-      padding-left: 24px;
-      margin: 32px 0;
-    }
-
-    .about-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 32px;
-    }
-
-    .about-tag {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 100px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    .about-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .about-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 24px;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
-
-    .about-card-icon {
-      font-size: 20px;
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      background: rgba(197, 82, 42, 0.12);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .about-card-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: white;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
       margin-bottom: 4px;
     }
 
-    .about-card-desc {
+    .cta-bar-text span {
       font-size: 13px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.45);
+      color: var(--stone-light);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      padding: 100px 0;
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-top: 60px;
+      position: relative;
+    }
+
+    .how-grid::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.3), rgba(13, 148, 136, 0.3), transparent);
+    }
+
+    .how-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 32px 24px;
+      position: relative;
+    }
+
+    .step-num {
+      width: 48px;
+      height: 48px;
+      background: var(--ink-soft);
+      border: 1px solid rgba(13, 148, 136, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--teal-light);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--stone-light);
       line-height: 1.6;
     }
 
-    /* CTA */
-    .cta-section {
-      background: var(--terracotta);
-      padding: 80px 48px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+    /* ── ROADMAP ── */
+    .roadmap-section {
+      padding: 100px 0;
     }
 
-    .cta-section::before {
+    .roadmap-track {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    .roadmap-track::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
+      left: 87px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--teal), rgba(13, 148, 136, 0.1));
+    }
+
+    .roadmap-phase {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 32px;
+      padding: 0 0 48px 0;
+      position: relative;
+    }
+
+    .phase-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .phase-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--teal);
+      border: 3px solid var(--ink);
+      box-shadow: 0 0 0 1px var(--teal);
+      z-index: 1;
+    }
+
+    .phase-dot.future {
+      background: var(--ink-soft);
+      border-color: var(--ink);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .phase-year {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--stone);
+      letter-spacing: 0.5px;
+    }
+
+    .phase-content {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 24px 28px;
+      transition: border-color 0.2s;
+    }
+
+    .phase-content:hover {
+      border-color: rgba(13, 148, 136, 0.2);
+    }
+
+    .phase-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .phase-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--teal-light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .phase-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .phase-desc {
+      font-size: 13px;
+      color: var(--stone-light);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .phase-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .phase-chip {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      color: var(--stone-light);
+    }
+
+    .phase-chip.ai-chip {
+      background: rgba(13, 148, 136, 0.08);
+      border-color: rgba(13, 148, 136, 0.2);
+      color: var(--teal-light);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 120px 0;
+    }
+
+    .cta-block {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
     }
 
     .cta-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 4vw, 52px);
-      font-weight: 600;
-      color: white;
-      line-height: 1.15;
-      letter-spacing: -0.5px;
-      margin-bottom: 16px;
-      position: relative;
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 54px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .cta-title .accent {
+      color: var(--teal-light);
     }
 
     .cta-sub {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 300;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 480px;
-      margin: 0 auto 40px;
+      color: var(--stone-light);
       line-height: 1.7;
-      position: relative;
+      margin-bottom: 40px;
     }
 
     .cta-actions {
       display: flex;
-      align-items: center;
       justify-content: center;
       gap: 16px;
-      position: relative;
+      flex-wrap: wrap;
     }
 
-    .btn-cta-white {
-      background: white;
-      color: var(--terracotta);
-      font-size: 15px;
-      font-weight: 600;
-      padding: 14px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.2s;
+    .cta-note {
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--stone);
+      font-family: var(--font-mono);
     }
 
-    .btn-cta-white:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn-cta-outline {
-      background: transparent;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 15px;
-      font-weight: 400;
-      padding: 14px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      border: 1.5px solid rgba(255, 255, 255, 0.3);
-      transition: all 0.2s;
-    }
-
-    .btn-cta-outline:hover {
-      color: white;
-      border-color: rgba(255, 255, 255, 0.6);
-    }
-
-    /* FOOTER */
+    /* ── FOOTER ── */
     footer {
-      background: var(--dark);
-      padding: 48px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 48px 0;
+      position: relative;
+      z-index: 1;
     }
 
     .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .footer-logo-mark {
-      width: 28px;
-      height: 28px;
-      background: var(--terracotta);
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-display);
+      font-size: 16px;
       font-weight: 700;
-      font-size: 13px;
-      color: white;
+      color: var(--white);
     }
 
-    .footer-logo-text {
-      font-size: 15px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .footer-logo-text span {
-      color: var(--terracotta);
+    .footer-tagline {
+      font-size: 12px;
+      color: var(--stone);
     }
 
     .footer-links {
       display: flex;
-      gap: 24px;
-      list-style: none;
+      gap: 28px;
+      flex-wrap: wrap;
     }
 
     .footer-links a {
-      font-size: 13px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.35);
+      font-size: 12px;
+      color: var(--stone);
       text-decoration: none;
       transition: color 0.2s;
     }
 
     .footer-links a:hover {
-      color: rgba(255, 255, 255, 0.65);
+      color: var(--stone-light);
     }
 
     .footer-copy {
-      font-size: 13px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.25);
+      font-size: 12px;
+      color: var(--stone);
+      font-family: var(--font-mono);
     }
 
-    /* REVEAL - visible by default, animated when JS loads */
+    /* ── ANIMATIONS ── */
     .reveal {
-      opacity: 1;
-      transform: none;
-    }
-
-    .reveal.js-ready {
       opacity: 0;
       transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
-    .reveal.js-ready.visible {
+    .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .reveal-delay-1 {
-      transition-delay: 0.1s;
-    }
-
-    .reveal-delay-2 {
-      transition-delay: 0.2s;
-    }
-
-    .reveal-delay-3 {
-      transition-delay: 0.3s;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 20px;
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
       }
 
-      .nav-links {
+      .float-card {
         display: none;
       }
 
-      .nav-logo-text {
-        font-size: 15px;
+      .problem-grid {
+        grid-template-columns: 1fr;
       }
 
-      .nav-logo-mark {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
+      .features-header {
+        grid-template-columns: 1fr;
       }
 
-      .nav-cta {
-        gap: 8px;
+      .how-grid {
+        grid-template-columns: 1fr;
       }
 
-      .btn-nav-login {
+      .how-grid::before {
         display: none;
       }
 
-      .btn-nav-primary {
-        padding: 8px 12px;
-        font-size: 12px;
-      }
-
-      .lang-btn {
-        padding: 4px 8px;
-        font-size: 11px;
-      }
-
-      section {
-        padding: 64px 20px;
-      }
-
-      .hero {
-        padding: 100px 20px 64px;
-      }
-
-      .problem-inner,
-      .about-inner {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .how-steps {
-        grid-template-columns: 1fr;
+      .roadmap-phase {
+        grid-template-columns: 80px 1fr;
+        gap: 20px;
       }
 
       .features-grid {
         grid-template-columns: 1fr;
       }
 
-      .features-header {
+      .feature-card.featured {
+        grid-column: span 1;
+      }
+
+      .container {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .features-cta-bar {
         flex-direction: column;
         align-items: flex-start;
-        gap: 16px;
-      }
-
-      .pricing-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-        gap: 24px;
-        text-align: center;
-      }
-
-      .footer-links {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .hero-proof {
-        flex-wrap: wrap;
-        gap: 12px;
-        justify-content: center;
-      }
-
-      .hero-proof-divider {
-        display: none;
       }
     }
   </style>
@@ -1234,546 +1337,501 @@
 
 <body>
 
-  <nav>
-    <a href="#" class="nav-logo">
-      <div class="nav-logo-mark">T</div>
-      <span class="nav-logo-text">Terra<span>Trace</span></span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#como-funciona" data-pt="Como Funciona" data-en="How It Works">Como Funciona</a></li>
-      <li><a href="#funcionalidades" data-pt="Funcionalidades" data-en="Features">Funcionalidades</a></li>
-      <li><a href="#precos" data-pt="Preços" data-en="Pricing">Preços</a></li>
-      <li><a href="#sobre" data-pt="Sobre" data-en="About">Sobre</a></li>
-    </ul>
-    <div class="nav-cta">
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')" title="Português (Brasil)">🇧🇷</button>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇺🇸</button>
+  <div class="bg-field"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-mark">TT</div>
+          <span class="nav-logo-text">TerraTrace</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#features">Funcionalidades</a></li>
+          <li><a href="#como-funciona">Como Funciona</a></li>
+          <li><a href="#roadmap">Roadmap</a></li>
+          <li><a href="#contato" class="nav-cta">Solicitar Acesso</a></li>
+        </ul>
       </div>
-      <a href="https://app.terratrace.com.br/login" class="btn-nav-login" data-pt="Entrar" data-en="Sign In">Entrar</a>
-      <a href="https://app.terratrace.com.br/cadastro" class="btn-nav-primary" data-pt="Começar Grátis"
-        data-en="Get Started Free">Começar Grátis</a>
     </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg-grid"></div>
-    <div class="hero-bg-glow"></div>
-    <div class="hero-badge">
-      <div class="hero-badge-dot"></div>
-      <span data-pt="Plataforma de Conformidade para Construtoras"
-        data-en="Compliance Platform for Construction Companies">Plataforma de Conformidade para Construtoras</span>
-    </div>
-    <h1 class="hero-headline">
-      <span data-pt="Engenharia de Conformidade & <em class='underline-accent'>ESG</em>"
-        data-en="Compliance Engineering & <em class='underline-accent'>ESG</em>">Engenharia de Conformidade & <em
-          class="underline-accent">ESG</em></span>
-    </h1>
-    <p class="hero-sub" data-pt="Sua obra em dia com a AMMA e vistorias ambientais. Tudo digital, rápido e sustentável."
-      data-en="Your project compliant with AMMA and environmental standards. All digital, fast, and sustainable.">
-      Sua obra em dia com a AMMA e vistorias ambientais. Tudo digital, rápido e sustentável.
-    </p>
-    <div class="hero-actions">
-      <a href="https://app.terratrace.com.br/login" class="btn-primary">
-        <span data-pt="Quero Acessar a Plataforma" data-en="Access the Platform">Quero Acessar a Plataforma</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-          stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </a>
-      <a href="#como-funciona" class="btn-secondary" data-pt="Ver como funciona" data-en="See how it works">Ver como
-        funciona</a>
-    </div>
-    <div class="hero-proof">
-      <div class="hero-proof-item">
-        <span class="hero-proof-number">4</span>
-        <span class="hero-proof-label" data-pt="Módulos de<br/>Conformidade" data-en="Compliance<br/>Modules">Módulos
-          de<br />Conformidade</span>
-      </div>
-      <div class="hero-proof-divider"></div>
-      <div class="hero-proof-item">
-        <span class="hero-proof-number">AMMA</span>
-        <span class="hero-proof-label" data-pt="Templates oficiais<br/>pré-carregados"
-          data-en="Official templates<br/>pre-loaded">Templates oficiais<br />pré-carregados</span>
-      </div>
-      <div class="hero-proof-divider"></div>
-      <div class="hero-proof-item">
-        <span class="hero-proof-number">100%</span>
-        <span class="hero-proof-label" data-pt="Mobile-first,<br/>usável em obra"
-          data-en="Mobile-first,<br/>usable on site">Mobile-first,<br />usável em obra</span>
-      </div>
-      <div class="hero-proof-divider"></div>
-      <div class="hero-proof-item">
-        <span class="hero-proof-number">0</span>
-        <span class="hero-proof-label" data-pt="Papelada,<br/>tudo digital"
-          data-en="Paperwork,<br/>all digital">Papelada,<br />tudo digital</span>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content reveal">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span class="badge-text">AI-Native · Compliance · Construção de Alto Padrão</span>
+          </div>
+          <h1 class="hero-title">
+            A camada inteligente<br>de compliance para<br><span class="accent">construtoras de luxo</span>
+          </h1>
+          <p class="hero-sub">
+            TerraTrace automatiza o controle documental, prepara vistorias e gera laudos regulatórios com inteligência
+            artificial — para engenheiros responsáveis e construtoras que não podem se dar ao luxo de falhar em uma
+            vistoria da AMMA.
+          </p>
+          <div class="hero-actions">
+            <a href="#contato" class="btn-primary">
+              Solicitar Acesso Beta
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+            <a href="#features" class="btn-secondary">Ver funcionalidades</a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-item"><strong>AMMA</strong> nativo</div>
+            <div class="trust-line"></div>
+            <div class="trust-item"><strong>IA assistiva</strong> — humano sempre aprova</div>
+            <div class="trust-line"></div>
+            <div class="trust-item">Pensado para <strong>Alto Padrão</strong></div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" style="transition-delay: 0.15s">
+          <div class="float-card float-card-1">
+            <div class="float-label">Obras Ativas</div>
+            <div class="float-value teal">12</div>
+            <div class="float-sub">↑ 3 este mês</div>
+          </div>
+          <div class="float-card float-card-2">
+            <div class="float-label">Score IA</div>
+            <div class="float-value">94<span style="font-size:12px;color:var(--stone)">/100</span></div>
+            <div class="float-sub">Compliance</div>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="card-header">
+              <div class="card-title-row">
+                <div class="card-icon">🏗</div>
+                <div>
+                  <div class="card-label">Dashboard de Obras</div>
+                  <div class="card-sub">Terras Alphaville Ceará · Eusébio</div>
+                </div>
+              </div>
+              <div class="status-badge">
+                <span class="status-dot"></span>
+                Ao vivo
+              </div>
+            </div>
+
+            <div class="obra-list">
+              <div class="obra-item">
+                <div class="obra-info">
+                  <div class="obra-name">Lote 47 — Bloco B</div>
+                  <div class="obra-meta">Eng. Ribeiro · AMMA/2024-0471</div>
+                </div>
+                <div class="obra-badges">
+                  <span class="chip chip-ok">Em dia</span>
+                  <span class="chip chip-ai">IA ativo</span>
+                </div>
+              </div>
+              <div class="obra-item">
+                <div class="obra-info">
+                  <div class="obra-name">Casa 12 — Setor Norte</div>
+                  <div class="obra-meta">Eng. Matos · AMMA/2024-0388</div>
+                </div>
+                <div class="obra-badges">
+                  <span class="chip chip-warn">1 doc. expirando</span>
+                </div>
+              </div>
+              <div class="obra-item">
+                <div class="obra-info">
+                  <div class="obra-name">Lote 29 — Residencial Alto</div>
+                  <div class="obra-meta">Eng. Costa · AMMA/2024-0512</div>
+                </div>
+                <div class="obra-badges">
+                  <span class="chip chip-alert">Vistoria em 5d</span>
+                  <span class="chip chip-ai">PGRSCC pronto</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ai-insight">
+              <div class="ai-icon">✦</div>
+              <div class="ai-text">
+                <strong>IA detectou:</strong> Lote 29 tem vistoria em 5 dias. ART de fundação expira amanhã. 2
+                checklists AMMA incompletos. <strong>Ação recomendada →</strong>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- PROOF BAND -->
+  <div class="proof-band">
+    <div class="container">
+      <div class="proof-inner">
+        <span class="proof-label">Regulação & Stack</span>
+        <div class="proof-items">
+          <span class="proof-item">AMMA Eusébio</span>
+          <span class="proof-item">MTR Federal</span>
+          <span class="proof-item">PGRSCC</span>
+          <span class="proof-item">NBR 10004</span>
+          <span class="proof-item">Anthropic AI</span>
+          <span class="proof-item">Supabase</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- PROBLEM -->
-  <section style="background: var(--cream); padding: 100px 48px;">
-    <div class="problem-inner">
+  <section class="problem-section" id="problema">
+    <div class="container">
       <div class="reveal">
-        <div class="section-label" data-pt="O Problema" data-en="The Problem">O Problema</div>
-        <h2 class="section-title" data-pt="Conformidade de obra ainda é caos."
-          data-en="Construction compliance is still chaos.">Conformidade de obra ainda é caos.</h2>
-        <p class="section-sub"
-          data-pt="Engenheiros responsáveis no Ceará gerenciam documentos críticos em WhatsApp, e-mail e papel. Um alvará vencido pode embargar a obra inteira."
-          data-en="Site engineers in Ceará manage critical documents over WhatsApp, email and paper. One expired permit can shut down the entire project.">
-          Engenheiros responsáveis no Ceará gerenciam documentos críticos em WhatsApp, e-mail e papel. Um alvará vencido
-          pode embargar a obra inteira.</p>
+        <div class="section-label">O Problema</div>
+        <h2 class="section-title">Compliance manual<br>é risco real</h2>
       </div>
-      <div class="problem-cards">
-        <div class="problem-card reveal reveal-delay-1">
-          <div class="problem-icon">📁</div>
-          <div>
-            <div class="problem-card-title" data-pt="Documentos espalhados" data-en="Scattered documents">Documentos
-              espalhados</div>
-            <div class="problem-card-desc"
-              data-pt="Licenças, alvarás e certidões em e-mails, WhatsApp e pastas físicas. Ninguém sabe o que está vencido."
-              data-en="Licenses, permits and certificates scattered across emails, WhatsApp and physical folders. Nobody knows what's expired.">
-              Licenças, alvarás e certidões em e-mails, WhatsApp e pastas físicas. Ninguém sabe o que está vencido.
+      <div class="problem-grid reveal" style="transition-delay: 0.1s">
+        <div class="problem-list">
+          <div class="problem-item">
+            <div class="problem-icon">📁</div>
+            <div class="problem-text">
+              <strong>Documentos dispersos em planilhas e pastas</strong>
+              <span>ARTs, licenças e laudos controlados manualmente, sem visibilidade de vencimentos ou status por
+                obra.</span>
+            </div>
+          </div>
+          <div class="problem-item">
+            <div class="problem-icon">⚠️</div>
+            <div class="problem-text">
+              <strong>Vistorias preparadas de última hora</strong>
+              <span>Checklists da AMMA preenchidos às pressas, sem análise de lacunas, gerando autuações e
+                paralisações.</span>
+            </div>
+          </div>
+          <div class="problem-item">
+            <div class="problem-icon">📋</div>
+            <div class="problem-text">
+              <strong>PGRSCC e MTR montados à mão</strong>
+              <span>Planos de gerenciamento de resíduos elaborados manualmente a cada obra, consumindo horas de trabalho
+                técnico.</span>
+            </div>
+          </div>
+          <div class="problem-item">
+            <div class="problem-icon">📱</div>
+            <div class="problem-text">
+              <strong>RDOs inconsistentes e não revisados</strong>
+              <span>Relatórios diários de obra preenchidos sem padrão, criando gaps de rastreabilidade em
+                auditorias.</span>
             </div>
           </div>
         </div>
-        <div class="problem-card reveal reveal-delay-2">
-          <div class="problem-icon">📋</div>
-          <div>
-            <div class="problem-card-title" data-pt="Vistorias AMMA sem controle"
-              data-en="Uncontrolled AMMA inspections">Vistorias AMMA sem controle</div>
-            <div class="problem-card-desc"
-              data-pt="Checklists em papel, preenchidos na correria. Itens críticos ficam para trás na hora da fiscalização."
-              data-en="Paper checklists filled in a rush. Critical items get missed when inspectors arrive.">Checklists
-              em papel, preenchidos na correria. Itens críticos ficam para trás na hora da fiscalização.</div>
-          </div>
-        </div>
-        <div class="problem-card reveal reveal-delay-3">
-          <div class="problem-icon">⚠️</div>
-          <div>
-            <div class="problem-card-title" data-pt="Risco de embargo" data-en="Risk of work stoppage">Risco de embargo
-            </div>
-            <div class="problem-card-desc"
-              data-pt="Um documento vencido ou um RDO incompleto pode paralisar a obra e gerar multas pesadas."
-              data-en="One expired document or an incomplete daily report can halt the project and generate heavy fines.">
-              Um documento vencido ou um RDO incompleto pode paralisar a obra e gerar multas pesadas.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="how" id="como-funciona">
-    <div class="how-inner">
-      <div class="how-header reveal">
-        <div class="section-label" data-pt="Como Funciona" data-en="How It Works">Como Funciona</div>
-        <h2 class="section-title light" data-pt="Três passos para uma obra em conformidade."
-          data-en="Three steps to a fully compliant project.">Três passos para uma obra em conformidade.</h2>
-      </div>
-      <div class="how-steps">
-        <div class="how-step reveal">
-          <span class="how-step-icon">🏗️</span>
-          <div class="how-step-title" data-pt="Cadastre sua Obra" data-en="Register your Project">Cadastre sua Obra
+        <div class="problem-callout">
+          <div class="callout-quote">
+            Uma vistoria <span class="accent">reprovada pela AMMA</span> pode paralisar uma obra de alto padrão por
+            semanas.
           </div>
-          <div class="how-step-desc"
-            data-pt="Crie o projeto em segundos. Adicione o endereço, o condomínio e o engenheiro responsável. Tudo organizado desde o primeiro dia."
-            data-en="Create your project in seconds. Add the address, development name and responsible engineer. Everything organized from day one.">
-            Crie o projeto em segundos. Adicione o endereço, o condomínio e o engenheiro responsável. Tudo organizado
-            desde o primeiro dia.</div>
-        </div>
-        <div class="how-step reveal reveal-delay-1">
-          <span class="how-step-icon">📄</span>
-          <div class="how-step-title" data-pt="Organize a Documentação" data-en="Organize your Documents">Organize a
-            Documentação</div>
-          <div class="how-step-desc"
-            data-pt="Faça upload de alvarás, licenças e certidões. A plataforma alerta automaticamente quando um documento está próximo do vencimento."
-            data-en="Upload permits, licenses and certificates. The platform automatically alerts you when a document is approaching expiry.">
-            Faça upload de alvarás, licenças e certidões. A plataforma alerta automaticamente quando um documento está
-            próximo do vencimento.</div>
-        </div>
-        <div class="how-step reveal reveal-delay-2">
-          <span class="how-step-icon">✅</span>
-          <div class="how-step-title" data-pt="Gerencie com Confiança" data-en="Manage with Confidence">Gerencie com
-            Confiança</div>
-          <div class="how-step-desc"
-            data-pt="Execute checklists AMMA no celular, registre RDOs diários e emita relatórios MTR. Sua obra sempre pronta para fiscalização."
-            data-en="Run AMMA checklists on mobile, record daily reports and generate MTR reports. Your project always ready for inspection.">
-            Execute checklists AMMA no celular, registre RDOs diários e emita relatórios MTR. Sua obra sempre pronta
-            para fiscalização.</div>
+          <div class="callout-detail">
+            Em empreendimentos de luxo como os de Terras Alphaville Ceará, o custo de uma paralisação não é apenas
+            financeiro — é reputacional. Construtoras e engenheiros responsáveis não podem depender de processos manuais
+            para gerenciar risco regulatório.
+          </div>
+          <div class="callout-stat">
+            <div class="stat-item">
+              <div class="stat-num">3–5x</div>
+              <div class="stat-desc">mais rápido para preparar vistorias com IA</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">100%</div>
+              <div class="stat-desc">dos vencimentos monitorados automaticamente</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FEATURES -->
-  <section style="background: var(--cream); padding: 100px 48px;" id="funcionalidades">
-    <div style="max-width:1200px; margin:0 auto;">
+  <section class="features-section" id="features">
+    <div class="container">
       <div class="features-header reveal">
         <div>
-          <div class="section-label" data-pt="Funcionalidades" data-en="Features">Funcionalidades</div>
-          <h2 class="section-title" data-pt="Tudo que sua obra precisa<br/>para estar em dia."
-            data-en="Everything your project needs<br/>to stay compliant.">Tudo que sua obra precisa<br />para estar em
-            dia.</h2>
+          <div class="section-label">Funcionalidades</div>
+          <h2 class="section-title">Compliance inteligente,<br>do início ao fim</h2>
         </div>
-        <p style="font-size:14px; color:var(--text-light); max-width:240px; text-align:right; line-height:1.6;"
-          data-pt="Construído especificamente para o mercado de alto padrão do Ceará."
-          data-en="Built specifically for the luxury residential market in Ceará.">Construído especificamente para o
-          mercado de alto padrão do Ceará.</p>
+        <p class="section-sub">Cada módulo do TerraTrace tem uma camada de IA que antecipa problemas, preenche lacunas e
+          reduz o trabalho manual do engenheiro.</p>
       </div>
-      <div class="features-grid">
-        <div class="feature-card reveal">
-          <div class="feature-icon-wrap">🗄️</div>
-          <div class="feature-title" data-pt="Cofre de Documentos" data-en="Document Vault">Cofre de Documentos</div>
-          <div class="feature-desc"
-            data-pt="Centralize todas as licenças, alvarás e certidões da obra. Alertas automáticos de vencimento antes que vire problema."
-            data-en="Centralize all project licenses, permits and certificates. Automatic expiry alerts before they become a problem.">
-            Centralize todas as licenças, alvarás e certidões da obra. Alertas automáticos de vencimento antes que vire
-            problema.</div>
-          <ul class="feature-list">
-            <li data-pt="Upload e organização por categoria" data-en="Upload and organize by category">Upload e
-              organização por categoria</li>
-            <li data-pt="Badge de vencimento automático" data-en="Automatic expiry badge">Badge de vencimento automático
-            </li>
-            <li data-pt="Alertas por prazo de validade" data-en="Alerts by expiry date">Alertas por prazo de validade
-            </li>
-            <li data-pt="Acesso rápido em qualquer dispositivo" data-en="Quick access on any device">Acesso rápido em
-              qualquer dispositivo</li>
-          </ul>
-        </div>
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-icon-wrap">📋</div>
-          <div class="feature-title" data-pt="Checklist de Vistoria AMMA" data-en="AMMA Inspection Checklist">Checklist
-            de Vistoria AMMA</div>
-          <div class="feature-desc"
-            data-pt="Templates oficiais da AMMA pré-carregados. Execute a vistoria no celular, em obra, com registro fotográfico."
-            data-en="Official AMMA templates pre-loaded. Run inspections on mobile, on site, with photo documentation.">
-            Templates oficiais da AMMA pré-carregados. Execute a vistoria no celular, em obra, com registro fotográfico.
-          </div>
-          <ul class="feature-list">
-            <li data-pt="Modelos AMMA prontos para uso" data-en="Ready-to-use AMMA templates">Modelos AMMA prontos para
-              uso</li>
-            <li data-pt="Preenchimento mobile em campo" data-en="Mobile completion in the field">Preenchimento mobile em
-              campo</li>
-            <li data-pt="Registro fotográfico por item" data-en="Photo record per item">Registro fotográfico por item
-            </li>
-            <li data-pt="Relatório exportável em PDF" data-en="Exportable PDF report">Relatório exportável em PDF</li>
-          </ul>
-        </div>
-        <div class="feature-card reveal">
-          <div class="feature-icon-wrap">📝</div>
-          <div class="feature-title" data-pt="RDO Digital" data-en="Digital Daily Report">RDO Digital</div>
-          <div class="feature-desc"
-            data-pt="Substitua o diário de obra em papel. Registre atividades, efetivo, clima e ocorrências diretamente do celular."
-            data-en="Replace paper site diaries. Record activities, workforce, weather and incidents directly from your phone.">
-            Substitua o diário de obra em papel. Registre atividades, efetivo, clima e ocorrências diretamente do
-            celular.</div>
-          <ul class="feature-list">
-            <li data-pt="Formulário mobile otimizado" data-en="Optimized mobile form">Formulário mobile otimizado</li>
-            <li data-pt="Registro de efetivo e atividades" data-en="Workforce and activity tracking">Registro de efetivo
-              e atividades</li>
-            <li data-pt="Histórico completo da obra" data-en="Complete project history">Histórico completo da obra</li>
-            <li data-pt="Exportação e compartilhamento" data-en="Export and sharing">Exportação e compartilhamento</li>
-          </ul>
-        </div>
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-icon-wrap">♻️</div>
-          <div class="feature-title" data-pt="MTR Digital + PGRSCC" data-en="Digital MTR + PGRSCC">MTR Digital + PGRSCC
-          </div>
-          <div class="feature-desc"
-            data-pt="Rastreamento de resíduos de construção e geração automática do PGRSCC — conformidade ambiental sem complicação."
-            data-en="Construction waste tracking and automatic PGRSCC generation — environmental compliance without the complexity.">
-            Rastreamento de resíduos de construção e geração automática do PGRSCC — conformidade ambiental sem
-            complicação.</div>
-          <ul class="feature-list">
-            <li data-pt="Registro de MTR por carga" data-en="MTR registration per load">Registro de MTR por carga</li>
-            <li data-pt="Geração automática do PGRSCC" data-en="Automatic PGRSCC generation">Geração automática do
-              PGRSCC</li>
-            <li data-pt="Conformidade com legislação vigente" data-en="Compliance with current legislation">Conformidade
-              com legislação vigente</li>
-            <li data-pt="Relatórios prontos para entrega" data-en="Reports ready for submission">Relatórios prontos para
-              entrega</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- PRICING -->
-  <section style="background: var(--cream-dark); padding: 100px 48px;" id="precos">
-    <div style="max-width: 1000px; margin: 0 auto;">
-      <div class="pricing-header reveal">
-        <div class="section-label" style="justify-content:center;" data-pt="Planos" data-en="Pricing">Planos</div>
-        <h2 class="section-title" style="text-align:center;" data-pt="Simples. Transparente.<br/>Sem surpresas."
-          data-en="Simple. Transparent.<br/>No surprises.">Simples. Transparente.<br />Sem surpresas.</h2>
-        <p class="section-sub" style="margin:16px auto 0; text-align:center;"
-          data-pt="Comece gratuitamente durante o período beta. Sem cartão de crédito."
-          data-en="Start free during the beta period. No credit card required.">Comece gratuitamente durante o período
-          beta. Sem cartão de crédito.</p>
-      </div>
-      <div class="pricing-grid reveal">
-        <div class="pricing-card">
-          <div class="pricing-tier" data-pt="Beta Gratuito" data-en="Free Beta">Beta Gratuito</div>
-          <div class="pricing-price">R$0<span data-pt="/mês" data-en="/month">/mês</span></div>
-          <p class="pricing-desc"
-            data-pt="Acesso completo durante o período de lançamento. Ideal para construtoras que querem experimentar antes de contratar."
-            data-en="Full access during the launch period. Ideal for builders who want to try before they subscribe.">
-            Acesso completo durante o período de lançamento. Ideal para construtoras que querem experimentar antes de
-            contratar.</p>
-          <ul class="pricing-features">
-            <li><span class="pricing-check">✓</span> <span data-pt="Até 3 obras ativas"
-                data-en="Up to 3 active projects">Até 3 obras ativas</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="Cofre de Documentos" data-en="Document Vault">Cofre
-                de Documentos</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="Checklist AMMA" data-en="AMMA Checklist">Checklist
-                AMMA</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="RDO Digital" data-en="Digital Daily Report">RDO
-                Digital</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="Suporte por e-mail" data-en="Email support">Suporte
-                por e-mail</span></li>
-          </ul>
-          <a href="https://app.terratrace.com.br/cadastro" class="btn-pricing btn-pricing-outline"
-            data-pt="Criar Conta Gratuita" data-en="Create Free Account">Criar Conta Gratuita</a>
-        </div>
-        <div class="pricing-card featured">
-          <div class="pricing-badge" data-pt="Em Breve" data-en="Coming Soon">Em Breve</div>
-          <div class="pricing-tier">Pro</div>
-          <div class="pricing-price" style="color:white;">R$997<span data-pt="/mês" data-en="/month">/mês</span></div>
-          <p class="pricing-desc"
-            data-pt="Para construtoras sérias. Obras ilimitadas, MTR Digital, PGRSCC automático e suporte prioritário."
-            data-en="For serious builders. Unlimited projects, Digital MTR, automatic PGRSCC and priority support.">Para
-            construtoras sérias. Obras ilimitadas, MTR Digital, PGRSCC automático e suporte prioritário.</p>
-          <ul class="pricing-features">
-            <li><span class="pricing-check">✓</span> <span data-pt="Obras ilimitadas" data-en="Unlimited projects">Obras
-                ilimitadas</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="Tudo do Beta, mais:"
-                data-en="Everything in Beta, plus:">Tudo do Beta, mais:</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="MTR Digital + PGRSCC"
-                data-en="Digital MTR + PGRSCC">MTR Digital + PGRSCC</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="Relatórios avançados"
-                data-en="Advanced reports">Relatórios avançados</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="Suporte prioritário"
-                data-en="Priority support">Suporte prioritário</span></li>
-            <li><span class="pricing-check">✓</span> <span data-pt="Multi-usuários"
-                data-en="Multi-user access">Multi-usuários</span></li>
-          </ul>
-          <a href="#" class="btn-pricing btn-pricing-filled" data-pt="Entrar na Lista de Espera"
-            data-en="Join the Waitlist">Entrar na Lista de Espera</a>
-        </div>
-        <div class="pricing-card" style="border-color: rgba(201,150,58,0.4); background: #0f1520;">
-          <div class="pricing-badge" style="background: #C9963A;" data-pt="Enterprise" data-en="Enterprise">Enterprise
-          </div>
-          <div class="pricing-tier" style="color: #C9963A;" data-pt="Construtoras & Grupos" data-en="Builders & Groups">
-            Construtoras & Grupos</div>
-          <div class="pricing-price" style="color:white;" data-pt="Sob consulta" data-en="Custom pricing">Sob consulta
-          </div>
-          <p class="pricing-desc" style="color:rgba(255,255,255,0.45); border-color:rgba(255,255,255,0.08);"
-            data-pt="Para grupos construtores com múltiplos projetos simultâneos, equipes grandes e necessidades de integração."
-            data-en="For builder groups running multiple simultaneous projects, large teams and integration requirements.">
-            Para grupos construtores com múltiplos projetos simultâneos, equipes grandes e necessidades de integração.
-          </p>
-          <ul class="pricing-features">
-            <li style="color:rgba(255,255,255,0.7);"><span class="pricing-check"
-                style="border-color:#C9963A; color:#C9963A; background:rgba(201,150,58,0.1);">✓</span> <span
-                data-pt="Tudo do Pro, mais:" data-en="Everything in Pro, plus:">Tudo do Pro, mais:</span></li>
-            <li style="color:rgba(255,255,255,0.7);"><span class="pricing-check"
-                style="border-color:#C9963A; color:#C9963A; background:rgba(201,150,58,0.1);">✓</span> <span
-                data-pt="Múltiplas construtoras" data-en="Multiple companies">Múltiplas construtoras</span></li>
-            <li style="color:rgba(255,255,255,0.7);"><span class="pricing-check"
-                style="border-color:#C9963A; color:#C9963A; background:rgba(201,150,58,0.1);">✓</span> <span
-                data-pt="Dashboard consolidado" data-en="Consolidated dashboard">Dashboard consolidado</span></li>
-            <li style="color:rgba(255,255,255,0.7);"><span class="pricing-check"
-                style="border-color:#C9963A; color:#C9963A; background:rgba(201,150,58,0.1);">✓</span> <span
-                data-pt="Integrações customizadas" data-en="Custom integrations">Integrações customizadas</span></li>
-            <li style="color:rgba(255,255,255,0.7);"><span class="pricing-check"
-                style="border-color:#C9963A; color:#C9963A; background:rgba(201,150,58,0.1);">✓</span> <span
-                data-pt="Gerente de conta dedicado" data-en="Dedicated account manager">Gerente de conta dedicado</span>
-            </li>
-            <li style="color:rgba(255,255,255,0.7);"><span class="pricing-check"
-                style="border-color:#C9963A; color:#C9963A; background:rgba(201,150,58,0.1);">✓</span> <span
-                data-pt="SLA garantido" data-en="Guaranteed SLA">SLA garantido</span></li>
-          </ul>
-          <a href="/contato.html" class="btn-pricing"
-            style="border: 1.5px solid rgba(201,150,58,0.5); color: #C9963A; text-align:center; display:block; padding:14px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:all 0.2s;"
-            data-pt="Falar com a Equipe" data-en="Talk to the Team">Falar com a Equipe</a>
-        </div>
-      </div>
-    </div>
-  </section>
+      <div class="features-grid reveal" style="transition-delay: 0.1s">
 
-  <!-- ABOUT -->
-  <section class="about" id="sobre">
-    <div class="about-inner">
-      <div class="reveal">
-        <div class="section-label" data-pt="Sobre" data-en="About">Sobre</div>
-        <h2 class="section-title light" data-pt="Construído em Fortaleza.<br/>Alicerçado em 20 anos<br/>de execução."
-          data-en="Built in Fortaleza.<br/>Grounded in 20 years<br/>of execution.">Construído em
-          Fortaleza.<br />Alicerçado em 20 anos<br />de execução.</h2>
-        <blockquote class="about-quote"
-          data-pt='"O objetivo não é apenas construir um produto — é construir a infraestrutura para a construção sustentável no Nordeste do Brasil."'
-          data-en='"The goal is not just to build a product — it\' s to build the infrastructure for sustainable
-          construction in Northeast Brazil."'>
-          "O objetivo não é apenas construir um produto — é construir a infraestrutura para a construção sustentável no
-          Nordeste do Brasil."
-        </blockquote>
-        <p style="font-size:15px; font-weight:300; color:rgba(255,255,255,0.45); line-height:1.7;"
-          data-pt="O TerraTrace nasceu da combinação de visão global em ESG e regulação — construída em 9 anos em Londres e 20 anos de experiência em plataformas — com conhecimento real do mercado de construção de alto padrão no Ceará."
-          data-en="TerraTrace was born from the combination of global ESG and regulatory insight — built over 9 years in London and 20 years of platform experience — with real on-the-ground knowledge of the luxury construction market in Ceará.">
-          O TerraTrace nasceu da combinação de visão global em ESG e regulação — construída em 9 anos em Londres e 20
-          anos de experiência em plataformas — com conhecimento real do mercado de construção de alto padrão no Ceará.
-        </p>
-        <div class="about-tags">
-          <span class="about-tag">Londres → Fortaleza</span>
-          <span class="about-tag">ESG & Sustentabilidade</span>
-          <span class="about-tag">Alphaville Ceará</span>
-          <span class="about-tag">AMMA Compliance</span>
-          <span class="about-tag" data-pt="Construção de Luxo" data-en="Luxury Construction">Construção de Luxo</span>
-        </div>
-      </div>
-      <div class="about-cards reveal reveal-delay-1">
-        <div class="about-card">
-          <div class="about-card-icon">🏙️</div>
-          <div>
-            <div class="about-card-title" data-pt="Mercado Local, Visão Global" data-en="Local Market, Global Vision">
-              Mercado Local, Visão Global</div>
-            <div class="about-card-desc"
-              data-pt="Construído por quem conhece o mercado de Eusébio e Alphaville — e a regulação ESG europeia que está chegando ao Brasil."
-              data-en="Built by someone who knows the Eusébio and Alphaville market — and the European ESG regulation heading to Brazil.">
-              Construído por quem conhece o mercado de Eusébio e Alphaville — e a regulação ESG europeia que está
-              chegando ao Brasil.</div>
-          </div>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon">⚖️</div>
-          <div>
-            <div class="about-card-title" data-pt="AMMA como Autoridade" data-en="AMMA as Authority">AMMA como
-              Autoridade</div>
-            <div class="about-card-desc"
-              data-pt="A plataforma é construída especificamente para os requisitos da AMMA — não uma solução genérica adaptada."
-              data-en="The platform is built specifically for AMMA requirements — not a generic solution retrofitted.">A
-              plataforma é construída especificamente para os requisitos da AMMA — não uma solução genérica adaptada.
+        <div class="feature-card featured">
+          <div class="feature-num">F1 · DESTAQUE</div>
+          <div style="display:flex; gap:32px; flex-wrap:wrap; align-items:flex-start">
+            <div style="flex:1; min-width:220px">
+              <div class="feature-icon">🗄️</div>
+              <div class="feature-name">Cofre Documental com IA</div>
+              <div class="feature-desc">Centraliza todos os documentos da obra com rastreamento de vencimentos, alertas
+                de Vencido e análise automática de lacunas contra checklists da AMMA.</div>
+              <span class="feature-ai-tag">✦ Análise de gap vs. AMMA · Previsão de vencimento</span>
+            </div>
+            <div
+              style="flex:1; min-width:220px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:16px;">
+              <div style="font-size:11px; color:var(--stone); font-family:var(--font-mono); margin-bottom:12px;">ANÁLISE
+                IA · Obra 47</div>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                  <span style="color:var(--stone-light)">ART de fundação</span>
+                  <span style="color:#f87171; font-family:var(--font-mono)">Vence em 1d</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                  <span style="color:var(--stone-light)">Licença ambiental</span>
+                  <span style="color:#4ade80; font-family:var(--font-mono)">OK</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                  <span style="color:var(--stone-light)">PGRSCC</span>
+                  <span style="color:var(--teal-light); font-family:var(--font-mono)">Gerado por IA ✦</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                  <span style="color:var(--stone-light)">Item checklist #7</span>
+                  <span style="color:#fbbf24; font-family:var(--font-mono)">Faltando</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="about-card">
-          <div class="about-card-icon">🌱</div>
-          <div>
-            <div class="about-card-title" data-pt="Roadmap ESG para 2027" data-en="ESG Roadmap for 2027">Roadmap ESG
-              para 2027</div>
-            <div class="about-card-desc"
-              data-pt="Conformidade hoje. Certificação verde amanhã. Construção sustentável é o futuro do mercado de luxo no Brasil."
-              data-en="Compliance today. Green certification tomorrow. Sustainable construction is the future of luxury in Brazil.">
-              Conformidade hoje. Certificação verde amanhã. Construção sustentável é o futuro do mercado de luxo no
-              Brasil.</div>
+
+        <div class="feature-card">
+          <div class="feature-num">F2</div>
+          <div class="feature-icon">✅</div>
+          <div class="feature-name">Checklists de Vistoria AMMA</div>
+          <div class="feature-desc">Templates digitais das inspeções da AMMA com rastreamento de conclusão por obra. A
+            IA revisa antes do envio e sinaliza itens incompletos ou inconsistentes.</div>
+          <span class="feature-ai-tag">✦ Revisão pré-vistoria automatizada</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-num">F3</div>
+          <div class="feature-icon">📱</div>
+          <div class="feature-name">RDO Mobile com Detecção de Anomalias</div>
+          <div class="feature-desc">Formulário de relatório diário de obra preenchido pelo time no campo. IA detecta
+            entradas ausentes, incomuns ou inconsistentes antes da submissão.</div>
+          <span class="feature-ai-tag">✦ Detecção de anomalias em tempo real</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-num">F4</div>
+          <div class="feature-icon">♻️</div>
+          <div class="feature-name">Geração Automática de PGRSCC</div>
+          <div class="feature-desc">A IA redige o Plano de Gerenciamento de Resíduos a partir dos dados do projeto. O
+            engenheiro revisa e assina — de horas para minutos.</div>
+          <span class="feature-ai-tag">✦ Rascunho IA · Aprovação humana</span>
+        </div>
+
+      </div>
+
+      <div class="features-cta-bar reveal" style="transition-delay: 0.2s">
+        <div class="cta-bar-text">
+          <strong>A IA prepara. O engenheiro decide. Sempre.</strong>
+          <span>Todas as ações geradas por IA passam por revisão humana antes de qualquer submissão regulatória.</span>
+        </div>
+        <a href="#contato" class="btn-primary" style="flex-shrink:0">
+          Quero testar
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="como-funciona">
+    <div class="container">
+      <div class="reveal" style="text-align:center">
+        <div class="section-label" style="justify-content:center">Como Funciona</div>
+        <h2 class="section-title" style="text-align:center">De obra caótica a<br>compliance em controle</h2>
+      </div>
+      <div class="how-grid reveal" style="transition-delay:0.1s">
+        <div class="how-step">
+          <div class="step-num">01</div>
+          <div class="step-title">Cadastre suas obras</div>
+          <div class="step-desc">Importe dados da obra, engenheiro responsável e regulação aplicável. O TerraTrace
+            configura automaticamente os requisitos AMMA para cada projeto.</div>
+        </div>
+        <div class="how-step">
+          <div class="step-num">02</div>
+          <div class="step-title">IA monitora e antecipa</div>
+          <div class="step-desc">O sistema analisa continuamente documentos, prazos e checklists. Alertas inteligentes
+            chegam antes que os problemas aconteçam — não depois.</div>
+        </div>
+        <div class="how-step">
+          <div class="step-num">03</div>
+          <div class="step-title">Engenheiro revisa e aprova</div>
+          <div class="step-desc">Toda ação gerada por IA — de PGRSCCs a análises de checklist — passa pelo engenheiro
+            responsável. IA prepara. Humano decide.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="roadmap-section" id="roadmap">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Roadmap</div>
+        <h2 class="section-title">De compliance a<br>inteligência ESG</h2>
+        <p class="section-sub" style="margin-bottom:0">TerraTrace evolui em três fases: da conformidade regulatória ao
+          posicionamento ESG e ao marketplace sustentável.</p>
+      </div>
+
+      <div class="roadmap-track reveal" style="transition-delay:0.1s">
+
+        <div class="roadmap-phase">
+          <div class="phase-marker">
+            <div class="phase-dot"></div>
+            <div class="phase-year">2026</div>
+          </div>
+          <div class="phase-content">
+            <div class="phase-tag">
+              <span class="phase-num">Fase 1 · Ativo</span>
+            </div>
+            <div class="phase-title">MVP de Compliance</div>
+            <div class="phase-desc">Cofre documental, checklists AMMA, RDO mobile, geração de PGRSCC — com IA assistiva
+              em cada módulo. Foco em construtoras de alto padrão em Eusébio, Ceará.</div>
+            <div class="phase-features">
+              <span class="phase-chip">Cofre Documental</span>
+              <span class="phase-chip">Checklists AMMA</span>
+              <span class="phase-chip">RDO Mobile</span>
+              <span class="phase-chip">PGRSCC</span>
+              <span class="phase-chip ai-chip">✦ Análise de gap IA</span>
+              <span class="phase-chip ai-chip">✦ PGRSCC rascunho IA</span>
+              <span class="phase-chip ai-chip">✦ Score de compliance</span>
+            </div>
           </div>
         </div>
-        <div class="about-card">
-          <div class="about-card-icon">📍</div>
-          <div>
-            <div class="about-card-title" data-pt="Parceiro de Design" data-en="Design Partner">Parceiro de Design</div>
-            <div class="about-card-desc"
-              data-pt="Aceitamos construtoras parceiras para co-criar a plataforma em troca de acesso gratuito e influência direta nas funcionalidades."
-              data-en="We welcome partner builders to co-create the platform in exchange for free access and direct influence over features.">
-              Aceitamos construtoras parceiras para co-criar a plataforma em troca de acesso gratuito e influência
-              direta nas funcionalidades.</div>
+
+        <div class="roadmap-phase">
+          <div class="phase-marker">
+            <div class="phase-dot future"></div>
+            <div class="phase-year">2027</div>
+          </div>
+          <div class="phase-content">
+            <div class="phase-tag">
+              <span class="phase-num">Fase 2 · Em roadmap</span>
+            </div>
+            <div class="phase-title">Inteligência ESG</div>
+            <div class="phase-desc">Rastreamento de certificações verdes (LEED, AQUA-HQE), dashboards de pegada de
+              carbono e relatórios ESG gerados automaticamente — posicionando construtoras para atrair capital de
+              impacto nacional e internacional.</div>
+            <div class="phase-features">
+              <span class="phase-chip">Certificação Verde</span>
+              <span class="phase-chip">Dashboard de Carbono</span>
+              <span class="phase-chip">Relatórios ESG</span>
+              <span class="phase-chip ai-chip">✦ Narrativa ESG por IA</span>
+              <span class="phase-chip ai-chip">✦ Score de prontidão verde</span>
+            </div>
           </div>
         </div>
+
+        <div class="roadmap-phase" style="padding-bottom:0">
+          <div class="phase-marker">
+            <div class="phase-dot future"></div>
+            <div class="phase-year">2028+</div>
+          </div>
+          <div class="phase-content">
+            <div class="phase-tag">
+              <span class="phase-num">Fase 3 · Visão</span>
+            </div>
+            <div class="phase-title">Marketplace de Materiais Sustentáveis</div>
+            <div class="phase-desc">Plataforma B2B conectando construtoras verificadas a fornecedores de materiais
+              sustentáveis — com IA pareando especificações técnicas, conformidade regulatória e impacto ESG. Corredor
+              estratégico Miami–Fortaleza para capital americano e europeu.</div>
+            <div class="phase-features">
+              <span class="phase-chip">Marketplace B2B</span>
+              <span class="phase-chip">Fornecedores ESG</span>
+              <span class="phase-chip">Corredor Miami–Fortaleza</span>
+              <span class="phase-chip ai-chip">✦ Matching IA por especificação</span>
+              <span class="phase-chip ai-chip">✦ Simulação de impacto ESG</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- CTA -->
-  <section class="cta-section">
-    <h2 class="cta-title" data-pt="Pronto para colocar sua obra<br/>em conformidade?"
-      data-en="Ready to bring your project<br/>into full compliance?">Pronto para colocar sua obra<br />em conformidade?
-    </h2>
-    <p class="cta-sub"
-      data-pt="Acesse gratuitamente durante o beta. Seja um dos primeiros a usar o TerraTrace e ajude a moldar a plataforma."
-      data-en="Access for free during the beta. Be among the first to use TerraTrace and help shape the platform.">
-      Acesse gratuitamente durante o beta. Seja um dos primeiros a usar o TerraTrace e ajude a moldar a plataforma.</p>
-    <div class="cta-actions">
-      <a href="https://app.terratrace.com.br/cadastro" class="btn-cta-white" data-pt="Criar Conta Gratuita"
-        data-en="Create Free Account">Criar Conta Gratuita</a>
-      <a href="/contato.html" class="btn-cta-outline" data-pt="Falar com a Equipe" data-en="Talk to the Team">Falar com
-        a Equipe</a>
+  <section class="cta-section" id="contato">
+    <div class="container">
+      <div class="cta-block reveal">
+        <div class="section-label" style="justify-content:center">Acesso Beta</div>
+        <h2 class="cta-title">
+          Pronto para deixar a<br>IA cuidar do <span class="accent">compliance</span>?
+        </h2>
+        <p class="cta-sub">
+          Estamos abrindo o acesso beta para engenheiros responsáveis e construtoras de alto padrão em Eusébio e
+          Fortaleza. Vagas limitadas.
+        </p>
+        <div class="cta-actions">
+          <a href="mailto:contato@terratrace.com.br" class="btn-primary" style="font-size:16px; padding:16px 32px">
+            Solicitar Acesso Beta
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+          <a href="mailto:contato@terratrace.com.br" class="btn-secondary"
+            style="font-size:16px; padding:16px 32px">Falar com a equipe</a>
+        </div>
+        <div class="cta-note">terratrace.com.br · contato@terratrace.com.br · Fortaleza, Ceará, Brasil</div>
+      </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-inner">
-      <a href="#" class="footer-logo">
-        <div class="footer-logo-mark">T</div>
-        <span class="footer-logo-text">Terra<span>Trace</span></span>
-      </a>
-      <ul class="footer-links">
-        <li><a href="#como-funciona" data-pt="Como Funciona" data-en="How It Works">Como Funciona</a></li>
-        <li><a href="#funcionalidades" data-pt="Funcionalidades" data-en="Features">Funcionalidades</a></li>
-        <li><a href="#precos" data-pt="Preços" data-en="Pricing">Preços</a></li>
-        <li><a href="#sobre" data-pt="Sobre" data-en="About">Sobre</a></li>
-        <li><a href="/contato.html" data-pt="Contato" data-en="Contact">Contato</a></li>
-      </ul>
-      <span class="footer-copy" data-pt="© 2026 TerraTrace. Todos os direitos reservados."
-        data-en="© 2026 TerraTrace. All rights reserved.">© 2026 TerraTrace. Todos os direitos reservados.</span>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div style="display:flex; align-items:center; gap:8px">
+            <div class="nav-logo-mark" style="width:28px;height:28px;font-size:13px">TT</div>
+            <span class="footer-logo">TerraTrace</span>
+          </div>
+          <span class="footer-tagline">Compliance inteligente para construção de alto padrão</span>
+        </div>
+        <div class="footer-links">
+          <a href="#features">Funcionalidades</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#contato">Contato</a>
+          <a href="#">Privacidade</a>
+        </div>
+        <span class="footer-copy">© 2026 TerraTrace · terratrace.com.br</span>
+      </div>
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script>
-    // ── LANGUAGE TOGGLE ──
-    let currentLang = 'pt';
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
 
-    function setLang(lang) {
-      currentLang = lang;
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
-      });
-      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
-      document.querySelectorAll('[data-pt]').forEach(el => {
-        const text = el.getAttribute('data-' + lang);
-        if (!text) return;
-        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-          el.placeholder = text;
-        } else {
-          el.innerHTML = text;
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
         }
       });
-      document.title = lang === 'pt'
-        ? 'TerraTrace — Conformidade de Obra, Simplificada'
-        : 'TerraTrace — Construction Compliance, Simplified';
-    }
-
-    // Handle URL parameter on load
-    window.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const lang = params.get('lang');
-      if (lang === 'en' || lang === 'pt') {
-        setLang(lang);
-      }
-    });
-
-    // ── SCROLL REVEAL ──
-    const reveals = document.querySelectorAll('.reveal');
-    reveals.forEach(el => el.classList.add('js-ready'));
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(el => observer.observe(el));
 
-    // Nav scroll effect
-    const nav = document.querySelector('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) {
-        nav.style.borderBottomColor = 'rgba(255,255,255,0.1)';
-      } else {
-        nav.style.borderBottomColor = 'rgba(255,255,255,0.06)';
-      }
-    });
+    // Trigger hero immediately
+    setTimeout(() => {
+      document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+    }, 100);
   </script>
 
   <!-- WAITLIST MODAL -->
@@ -1781,9 +1839,9 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 9999;
       display: flex;
       align-items: center;
@@ -1800,15 +1858,16 @@
     }
 
     .modal-content {
-      background: var(--cream);
+      background: var(--ink-soft);
       width: 100%;
       max-width: 540px;
-      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
       padding: 40px;
       position: relative;
       transform: translateY(20px);
       transition: transform 0.3s ease;
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -1821,8 +1880,8 @@
       position: absolute;
       top: 24px;
       right: 24px;
-      background: rgba(0, 0, 0, 0.04);
-      border: none;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       width: 36px;
       height: 36px;
       border-radius: 50%;
@@ -1830,12 +1889,12 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: var(--text-dark);
+      color: var(--white);
       transition: all 0.2s;
     }
 
     .modal-close:hover {
-      background: rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .modal-header {
@@ -1843,17 +1902,18 @@
     }
 
     .modal-title {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-display);
       font-size: 28px;
-      font-weight: 600;
-      color: var(--text-dark);
+      font-weight: 700;
+      color: var(--white);
       margin-bottom: 12px;
+      letter-spacing: -0.5px;
     }
 
     .modal-desc {
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.6;
-      color: var(--text-mid);
+      color: var(--stone-light);
     }
 
     .form-group {
@@ -1866,39 +1926,44 @@
 
     .form-label {
       display: block;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
-      color: var(--text-dark);
+      color: var(--white);
       margin-bottom: 8px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .form-label span {
-      color: var(--text-light);
+      color: var(--stone);
       font-weight: 400;
-      font-size: 12px;
+      font-size: 11px;
       margin-left: 4px;
+      text-transform: none;
+      font-family: var(--font-body);
     }
 
     .form-input {
       width: 100%;
       padding: 12px 16px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
       font-family: inherit;
       font-size: 15px;
-      color: var(--text-dark);
+      color: var(--white);
       transition: all 0.2s;
     }
 
     .form-input:focus {
       outline: none;
-      border-color: var(--terracotta);
-      box-shadow: 0 0 0 3px rgba(197, 82, 42, 0.1);
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
     }
 
     .form-input::placeholder {
-      color: #9ca3af;
+      color: var(--stone);
     }
 
     textarea.form-input {
@@ -1917,13 +1982,13 @@
       align-items: center;
       justify-content: center;
       padding: 12px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
-      color: var(--text-mid);
+      color: var(--stone-light);
       transition: all 0.2s;
     }
 
@@ -1932,30 +1997,32 @@
     }
 
     .radio-label:has(input:checked) {
-      border-color: var(--terracotta);
-      background: rgba(197, 82, 42, 0.04);
-      color: var(--terracotta);
+      border-color: var(--teal-light);
+      background: rgba(13, 148, 136, 0.1);
+      color: var(--teal-light);
     }
 
     .btn-submit {
       width: 100%;
-      background: var(--terracotta);
+      background: var(--teal);
       color: white;
       border: none;
       padding: 14px;
-      border-radius: 12px;
-      font-size: 16px;
+      border-radius: 10px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
+      letter-spacing: -0.2px;
+      font-family: var(--font-body);
     }
 
     .btn-submit:hover {
-      background: var(--terracotta-light);
-      transform: translateY(-2px);
+      background: var(--teal-light);
+      transform: translateY(-1px);
     }
 
     .btn-submit:disabled {
@@ -1964,7 +2031,6 @@
       transform: none;
     }
 
-    /* Success State */
     .success-state {
       display: none;
       text-align: center;
@@ -1978,28 +2044,29 @@
     .success-icon {
       width: 64px;
       height: 64px;
-      background: rgba(61, 122, 53, 0.15);
-      /* ESG green light */
-      color: #3D7A35;
+      background: rgba(13, 148, 136, 0.15);
+      color: var(--teal-light);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 32px;
       margin: 0 auto 24px;
+      border: 1px solid rgba(13, 148, 136, 0.3);
     }
 
     .success-title {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-display);
       font-size: 24px;
-      font-weight: 600;
-      color: var(--text-dark);
+      font-weight: 700;
+      color: var(--white);
       margin-bottom: 12px;
+      letter-spacing: -0.5px;
     }
 
     .success-desc {
-      font-size: 15px;
-      color: var(--text-mid);
+      font-size: 14px;
+      color: var(--stone-light);
       line-height: 1.6;
     }
 
@@ -2027,94 +2094,58 @@
       <!-- Form Content -->
       <div id="waitlist-form-container">
         <div class="modal-header">
-          <h3 class="modal-title" data-pt="TerraTrace — Lista de Espera" data-en="TerraTrace — Waitlist">TerraTrace —
-            Lista de Espera</h3>
-          <p class="modal-desc"
-            data-pt="Estamos selecionando construtoras parceiras para acesso antecipado à plataforma. Preencha abaixo e entraremos em contato em até 48 horas."
-            data-en="We are selecting partner construction companies for early access to the platform. Fill out the form below and we will contact you within 48 hours.">
-            Estamos selecionando construtoras parceiras para acesso antecipado à plataforma. Preencha abaixo e
-            entraremos em contato em até 48 horas.</p>
+          <h3 class="modal-title">TerraTrace — Acesso Beta</h3>
+          <p class="modal-desc">Estamos selecionando construtoras parceiras para acesso antecipado à plataforma.
+            Preencha abaixo e entraremos em contato em até 48 horas.</p>
         </div>
 
         <form id="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
           <div class="form-group">
-            <label class="form-label" for="wl-nome" data-pt="Nome completo *" data-en="Full Name *">Nome completo
-              <span>*</span></label>
-            <input type="text" id="wl-nome" name="nome" class="form-input" required placeholder="João Silva"
-              data-pt="João Silva" data-en="John Doe">
+            <label class="form-label" for="wl-nome">Nome completo <span>*</span></label>
+            <input type="text" id="wl-nome" name="nome" class="form-input" required placeholder="João Silva">
           </div>
-
           <div class="form-group">
-            <label class="form-label" for="wl-email" data-pt="E-mail *" data-en="E-mail *">E-mail
-              <span>*</span></label>
-            <input type="email" id="wl-email" name="email" class="form-input" required placeholder="joao@exemplo.com.br"
-              data-pt="joao@exemplo.com.br" data-en="john@example.com">
+            <label class="form-label" for="wl-email">E-mail corporativo <span>*</span></label>
+            <input type="email" id="wl-email" name="email" class="form-input" required
+              placeholder="joao@construtora.com.br">
           </div>
-
           <div class="form-group">
-            <label class="form-label" for="wl-empresa" data-pt="Empresa / Construtora *"
-              data-en="Company / Builder *">Empresa / Construtora <span>*</span></label>
+            <label class="form-label" for="wl-empresa">Empresa / Construtora <span>*</span></label>
             <input type="text" id="wl-empresa" name="empresa" class="form-input" required
-              placeholder="Ex: Engenharia SA" data-pt="Ex: Engenharia SA" data-en="Ex: Engineering Inc">
+              placeholder="Ex: Engenharia Alto Padrão SA">
           </div>
-
           <div class="form-group">
-            <label class="form-label" data-pt="Quantas obras ativas você gerencia atualmente? *"
-              data-en="How many active projects do you currently manage? *">Quantas obras ativas você gerencia
-              atualmente? <span>*</span></label>
+            <label class="form-label">Quantas obras ativas você gerencia? <span>*</span></label>
             <div class="radio-grid">
-              <label class="radio-label">
-                <input type="radio" name="obras" value="1" required> <span data-pt="1 obra" data-en="1 project">1
-                  obra</span>
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="obras" value="2-5"> <span data-pt="2 a 5 obras" data-en="2 to 5 projects">2 a
-                  5 obras</span>
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="obras" value="6-10"> <span data-pt="6 a 10 obras" data-en="6 to 10 projects">6
-                  a 10 obras</span>
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="obras" value="10+"> <span data-pt="Mais de 10 obras"
-                  data-en="More than 10 projects">Mais de 10 obras</span>
-              </label>
+              <label class="radio-label"><input type="radio" name="obras" value="1" required> <span>1
+                  obra</span></label>
+              <label class="radio-label"><input type="radio" name="obras" value="2-5"> <span>2 a 5 obras</span></label>
+              <label class="radio-label"><input type="radio" name="obras" value="6-10"> <span>6 a 10
+                  obras</span></label>
+              <label class="radio-label"><input type="radio" name="obras" value="10+"> <span>Mais de 10
+                  obras</span></label>
             </div>
           </div>
-
           <div class="form-group">
-            <label class="form-label" for="wl-desafio"
-              data-pt="Qual é o seu maior desafio hoje com documentação e conformidade? (opcional)"
-              data-en="What is your biggest challenge today regarding documentation and compliance? (optional)">Qual é o
-              seu maior desafio hoje com documentação e conformidade? <span>(opcional)</span></label>
+            <label class="form-label" for="wl-desafio">Maior desafio de compliance <span>(opcional)</span></label>
             <textarea id="wl-desafio" name="desafio" class="form-input"
-              placeholder="Ex: documentos espalhados, dificuldade com checklists AMMA, RDOs em papel..."
-              data-pt="Ex: documentos espalhados, dificuldade com checklists AMMA, RDOs em papel..."
-              data-en="Ex: scattered documents, difficulty with compliance checklists, paper daily reports..."></textarea>
+              placeholder="Ex: planilhas desatualizadas, riscos de embargo..."></textarea>
           </div>
-
           <div class="form-group">
-            <label class="form-label" for="wl-whatsapp" data-pt="WhatsApp para contato *"
-              data-en="Contact WhatsApp *">WhatsApp para contato <span>*</span></label>
+            <label class="form-label" for="wl-whatsapp">WhatsApp <span>*</span></label>
             <input type="tel" id="wl-whatsapp" name="whatsapp" class="form-input" required
-              placeholder="(85) 9 9999-9999" data-pt="(85) 9 9999-9999" data-en="+1 (555) 000-0000">
+              placeholder="(85) 9 9999-9999">
           </div>
-
-          <button type="submit" class="btn-submit" id="wl-submit-btn" data-pt="Entrar na Lista"
-            data-en="Join Waitlist">Entrar na Lista</button>
+          <button type="submit" class="btn-submit" id="wl-submit-btn">Solicitar Acesso Beta</button>
         </form>
       </div>
 
       <!-- Success Content -->
       <div id="waitlist-success" class="success-state">
         <div class="success-icon">✓</div>
-        <h3 class="success-title" data-pt="Obrigado!" data-en="Thank You!">Obrigado!</h3>
-        <p class="success-desc"
-          data-pt="Entraremos em contato pelo WhatsApp em até 48 horas.<br><br>Seja bem-vindo ao futuro da conformidade de obra no Ceará."
-          data-en="We will contact you via WhatsApp within 48 hours.<br><br>Welcome to the future of construction compliance.">
-          Entraremos em contato pelo WhatsApp em até 48 horas.<br><br>
-          Seja bem-vindo ao futuro da conformidade de obra no Ceará.
-        </p>
+        <h3 class="success-title">Obrigado!</h3>
+        <p class="success-desc">Entraremos em contato pelo WhatsApp em até 48 horas.<br><br>Seja bem-vindo à nova era do
+          compliance regulatório.</p>
       </div>
     </div>
   </div>
@@ -2127,47 +2158,39 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // modal logic
-    const modal = document.getElementById('waitlist-modal');
+    const waitlistModal = document.getElementById('waitlist-modal');
     const formContainer = document.getElementById('waitlist-form-container');
     const successContainer = document.getElementById('waitlist-success');
-    const form = document.getElementById('waitlist-form');
+    const waitlistForm = document.getElementById('waitlist-form');
     let isSubmitting = false;
 
     function openWaitlistModal(e) {
       if (e) e.preventDefault();
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // stop page scrolling
-
-      // Reset state if opened again
+      waitlistModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
       formContainer.style.display = 'block';
       successContainer.classList.remove('active');
-      form.reset();
+      waitlistForm.reset();
     }
 
     function closeWaitlistModal() {
-      modal.classList.remove('active');
+      waitlistModal.classList.remove('active');
       document.body.style.overflow = '';
     }
 
-    // Attach click handlers to all buttons matching 'Entrar na Lista de Espera' or 'Começar Grátis'
     document.addEventListener('DOMContentLoaded', () => {
-      // Find the specific pricing row CTA btn first
-      const pricingBtns = document.querySelectorAll('a.btn-pricing-filled, a.btn-nav-primary');
-      pricingBtns.forEach(btn => {
-        if (btn.textContent.includes('Lista de Espera') || btn.textContent.includes('Começar Grátis')) {
-          btn.addEventListener('click', openWaitlistModal);
-        }
+      const ctaBtns = document.querySelectorAll('a.nav-cta, a.btn-primary');
+      ctaBtns.forEach(btn => {
+        btn.addEventListener('click', openWaitlistModal);
       });
 
-      // Close when clicking outside modal content
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+      waitlistModal.addEventListener('click', (e) => {
+        if (e.target === waitlistModal) {
           closeWaitlistModal();
         }
       });
     });
 
-    // Handle actual Supabase submission
     async function handleWaitlistSubmit(e) {
       e.preventDefault();
       if (isSubmitting) return;
@@ -2179,8 +2202,7 @@
       submitBtn.disabled = true;
 
       try {
-        // Collect data
-        const formData = new FormData(form);
+        const formData = new FormData(waitlistForm);
         const data = Object.fromEntries(formData.entries());
 
         const { error } = await supabaseClient
@@ -2194,11 +2216,8 @@
             whatsapp: data.whatsapp
           }]);
 
-        if (error) {
-          throw error;
-        }
+        if (error) throw error;
 
-        // Show success
         formContainer.style.display = 'none';
         successContainer.classList.add('active');
 
@@ -2206,7 +2225,6 @@
         console.error('Waitlist capture error:', err);
         alert('Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.');
       } finally {
-        // Reset state
         isSubmitting = false;
         submitBtn.innerText = originalText;
         submitBtn.disabled = false;
