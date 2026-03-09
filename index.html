@@ -1398,7 +1398,9 @@
       }
 
       .nav-logo-text {
-        display: none;
+        display: block;
+        /* Keep wordmark */
+        font-size: 16px;
       }
 
       .nav-links {
@@ -1406,23 +1408,91 @@
       }
 
       .nav-cta {
-        gap: 8px;
-      }
-
-      .btn-nav-login {
         display: none;
+        /* Hide desktop CTA */
       }
 
-      .btn-nav-primary {
-        padding: 8px 12px;
-        font-size: 12px;
+      /* Hamburger Button */
+      .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
       }
 
-      .lang-btn {
-        padding: 3px 6px;
-        font-size: 11px;
+      .menu-toggle span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--white);
+        transition: all 0.3s;
       }
 
+      .menu-toggle.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      /* Mobile Menu Overlay */
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        background: var(--ink);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        padding: 100px 32px 40px;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        overflow-y: auto;
+      }
+
+      .mobile-menu.active {
+        transform: translateX(0);
+      }
+
+      .mobile-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 40px;
+      }
+
+      .mobile-links a {
+        font-family: var(--font-display);
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--white);
+        text-decoration: none;
+        letter-spacing: -0.5px;
+      }
+
+      .mobile-cta {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: auto;
+        padding-top: 32px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .mobile-lang {
+        margin-bottom: 32px;
+      }
+
+      /* Rest of responsive styles */
       .hero-actions {
         flex-direction: column;
         align-items: stretch;
@@ -1483,9 +1553,40 @@
           <a href="https://app.terratrace.com.br/cadastro" class="btn-nav-primary" data-pt="Começar Grátis"
             data-en="Get Started Free">Começar Grátis</a>
         </div>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-lang">
+      <div class="lang-toggle" style="justify-content: flex-start; border: none; background: rgba(255,255,255,0.05);">
+        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')" title="Português (Brasil)">🇧🇷
+          PT</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇺🇸 EN</button>
+      </div>
+    </div>
+    <ul class="mobile-links">
+      <li><a href="#como-funciona" data-pt="Como Funciona" data-en="How It Works" onclick="toggleMenu()">Como
+          Funciona</a></li>
+      <li><a href="#features" data-pt="Funcionalidades" data-en="Features" onclick="toggleMenu()">Funcionalidades</a>
+      </li>
+      <li><a href="#roadmap" data-pt="Roadmap" data-en="Roadmap" onclick="toggleMenu()">Roadmap</a></li>
+      <li><a href="#contato" data-pt="Solicitar Acesso" data-en="Request Access"
+          onclick="toggleMenu(); openWaitlistModal(event)">Solicitar Acesso</a></li>
+    </ul>
+    <div class="mobile-cta">
+      <a href="https://app.terratrace.com.br/login" class="btn-secondary" style="justify-content: center;"
+        data-pt="Entrar" data-en="Sign In">Entrar</a>
+      <a href="https://app.terratrace.com.br/cadastro" class="btn-primary" style="justify-content: center;"
+        data-pt="Começar Grátis" data-en="Get Started Free">Começar Grátis</a>
+    </div>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -2082,6 +2183,18 @@
     setTimeout(() => {
       document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
     }, 100);
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function toggleMenu() {
+      menuToggle.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
   </script>
 
   <!-- WAITLIST MODAL -->
