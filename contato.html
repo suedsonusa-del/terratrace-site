@@ -1622,6 +1622,14 @@
     }
 
     menuToggle.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking outside links (on the overlay)
+    mobileMenu.addEventListener('click', (e) => {
+      // If the clicked element is the overlay itself, close the menu
+      if (e.target === mobileMenu) {
+        toggleMenu();
+      }
+    });
   </script>
 </body>
 
