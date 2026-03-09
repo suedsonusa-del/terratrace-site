@@ -2415,6 +2415,11 @@
       if (lang === 'en' || lang === 'pt') {
         setLang(lang);
       }
+
+      // Auto-open modal if hash is #waitlist or #contato
+      if (window.location.hash === '#contato' || window.location.hash === '#waitlist') {
+        openWaitlistModal();
+      }
     });
 
     // Supabase Initialization
