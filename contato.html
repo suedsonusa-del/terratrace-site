@@ -1419,6 +1419,8 @@
 
     function setLang(lang) {
       currentLang = lang;
+      localStorage.setItem('preferred-lang', lang);
+
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
       });
@@ -1435,12 +1437,29 @@
       document.title = lang === 'pt'
         ? 'TerraTrace — Conformidade de Obra, Simplificada'
         : 'TerraTrace — Construction Compliance, Simplified';
+
+      // Update internal links (?lang=...)
+      document.querySelectorAll('a').forEach(a => {
+        const href = a.getAttribute('href');
+        if (href && (href.startsWith('/') || href.startsWith('./') || !href.includes(':')) && !href.startsWith('#')) {
+          try {
+            const url = new URL(href, window.location.origin);
+            if (url.origin === window.location.origin) {
+              url.searchParams.set('lang', lang);
+              a.setAttribute('href', url.pathname + url.search + url.hash);
+            }
+          } catch (e) { }
+        }
+      });
     }
 
     // Handle URL parameter on load
     window.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
-      const lang = params.get('lang');
+      const urlLang = params.get('lang');
+      const storedLang = localStorage.getItem('preferred-lang');
+      const lang = urlLang || storedLang || 'pt';
+
       if (lang === 'en' || lang === 'pt') {
         setLang(lang);
       }
