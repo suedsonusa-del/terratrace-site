@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 88" fill="none" width="100" height="88">
+  <!-- Left T — Terra. White on teal -->
+  <rect x="6"  y="16" width="38" height="8" rx="3" fill="white"/>
+  <rect x="17" y="16" width="8"  height="46" rx="3" fill="white"/>
+  <!-- Right T — Trace. White, reduced opacity -->
+  <rect x="54" y="60" width="36" height="7"  rx="3" fill="white" opacity="0.55"/>
+  <rect x="66" y="16" width="9"  height="52" rx="3" fill="white"/>
+  <!-- Connector -->
+  <circle cx="47" cy="44" r="8"   fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+  <circle cx="47" cy="44" r="3.5" fill="white"/>
+</svg>

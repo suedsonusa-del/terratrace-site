@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 88" fill="none" width="340" height="88">
+  <!-- Icon -->
+  <rect x="6"  y="16" width="38" height="8" rx="3" fill="#1A9E8F"/>
+  <rect x="17" y="16" width="8"  height="46" rx="3" fill="#1A9E8F"/>
+  <rect x="54" y="60" width="36" height="7"  rx="3" fill="#26D4BF" opacity="0.55"/>
+  <rect x="66" y="16" width="9"  height="52" rx="3" fill="#26D4BF"/>
+  <circle cx="47" cy="44" r="8"   fill="none" stroke="#26D4BF" stroke-width="2" opacity="0.3"/>
+  <circle cx="47" cy="44" r="3.5" fill="#26D4BF"/>
+  <!-- Wordmark: Terra (white) + Trace (teal-bright) -->
+  <!-- Uses system-safe font stack; replace with Syne in production -->
+  <text x="110" y="58"
+    font-family="'Syne', 'Arial Black', sans-serif"
+    font-weight="800"
+    font-size="36"
+    letter-spacing="-1"
+    fill="#FFFFFF">Terra</text>
+  <text x="222" y="58"
+    font-family="'Syne', 'Arial Black', sans-serif"
+    font-weight="800"
+    font-size="36"
+    letter-spacing="-1"
+    fill="#26D4BF">Trace</text>
+</svg>

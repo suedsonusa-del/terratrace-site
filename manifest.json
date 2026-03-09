@@ -1,0 +1,35 @@
+{
+    "name": "TerraTrace",
+    "short_name": "TerraTrace",
+    "description": "Compliance Inteligente para Construtoras de Alto Padrão",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0A1410",
+    "theme_color": "#0F6860",
+    "icons": [
+        {
+            "src": "/favicon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/app-icon-192-teal.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/favicon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/app-icon-512-teal.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
