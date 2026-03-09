@@ -84,21 +84,21 @@
 
     @keyframes drift1 {
       from {
-        transform: translate(0, 0) scale(1);
+        transform: translate(3d(0, 0, 0)) scale(1);
       }
 
       to {
-        transform: translate(8%, 5%) scale(1.1);
+        transform: translate3d(8%, 5%, 0) scale(1.1);
       }
     }
 
     @keyframes drift2 {
       from {
-        transform: translate(0, 0) scale(1);
+        transform: translate3d(0, 0, 0) scale(1);
       }
 
       to {
-        transform: translate(-5%, -8%) scale(1.08);
+        transform: translate3d(-5%, -8%, 0) scale(1.08);
       }
     }
 
@@ -112,7 +112,10 @@
         linear-gradient(rgba(13, 148, 136, 0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(13, 148, 136, 0.04) 1px, transparent 1px);
       background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse at 50% 50%, black 40%, transparent 80%);
+      /* Optimized mask to avoid frequent re-calculation */
+      mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 90%);
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 90%);
+      transform: translateZ(0);
     }
 
     /* ── LAYOUT ── */
@@ -138,7 +141,9 @@
     nav.scrolled {
       background: rgba(10, 15, 13, 0.85);
       backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+      transform: translateZ(0);
     }
 
     .nav-inner {
@@ -310,12 +315,12 @@
       0%,
       100% {
         opacity: 1;
-        transform: scale(1);
+        transform: scale(1) translateZ(0);
       }
 
       50% {
         opacity: 0.5;
-        transform: scale(0.8);
+        transform: scale(0.8) translateZ(0);
       }
     }
 
@@ -436,8 +441,10 @@
       border-radius: 16px;
       padding: 24px;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       position: relative;
       overflow: hidden;
+      transform: translateZ(0);
     }
 
     .dashboard-card::before {
@@ -637,12 +644,16 @@
       right: -24px;
       top: 30%;
       animation: floatA 6s ease-in-out infinite;
+      will-change: transform;
+      backface-visibility: hidden;
     }
 
     .float-card-2 {
       left: -20px;
       bottom: 15%;
       animation: floatB 7s ease-in-out infinite 1s;
+      will-change: transform;
+      backface-visibility: hidden;
     }
 
     @keyframes floatA {
@@ -1334,7 +1345,7 @@
 
     .reveal.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) translateZ(0);
     }
 
     /* ── RESPONSIVE ── */
@@ -1434,44 +1445,56 @@
         <div class="hero-content reveal">
           <div class="hero-badge">
             <span class="badge-dot"></span>
-            <span class="badge-text">AI-Native · Compliance · Construção de Alto Padrão</span>
+            <span class="badge-text" data-pt="AI-Native · Compliance · Construção de Alto Padrão"
+              data-en="AI-Native · Compliance · High-End Construction">AI-Native · Compliance · Construção de Alto
+              Padrão</span>
           </div>
-          <h1 class="hero-title">
+          <h1 class="hero-title"
+            data-pt="A camada inteligente<br>de compliance para<br><span class='accent'>construtoras de luxo</span>"
+            data-en="The intelligent layer<br>of compliance for<br><span class='accent'>luxury construction</span>">
             A camada inteligente<br>de compliance para<br><span class="accent">construtoras de luxo</span>
           </h1>
-          <p class="hero-sub">
+          <p class="hero-sub"
+            data-pt="TerraTrace automatiza o controle documental, prepara vistorias e gera laudos regulatórios com inteligência artificial — para engenheiros responsáveis e construtoras que não podem se dar ao luxo de falhar em uma vistoria da AMMA."
+            data-en="TerraTrace automates document control, prepares inspections and generates regulatory reports with artificial intelligence — for responsible engineers and construction companies that cannot afford to fail an AMMA inspection.">
             TerraTrace automatiza o controle documental, prepara vistorias e gera laudos regulatórios com inteligência
             artificial — para engenheiros responsáveis e construtoras que não podem se dar ao luxo de falhar em uma
             vistoria da AMMA.
           </p>
           <div class="hero-actions">
-            <a href="#contato" class="btn-primary">
+            <a href="#contato" class="btn-primary" data-pt="Solicitar Acesso Beta" data-en="Request Beta Access">
               Solicitar Acesso Beta
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </a>
-            <a href="#features" class="btn-secondary">Ver funcionalidades</a>
+            <a href="#features" class="btn-secondary" data-pt="Ver funcionalidades" data-en="See features">Ver
+              funcionalidades</a>
           </div>
           <div class="hero-trust">
-            <div class="trust-item"><strong>AMMA</strong> nativo</div>
+            <div class="trust-item" data-pt="<strong>AMMA</strong> nativo" data-en="Native <strong>AMMA</strong>">
+              <strong>AMMA</strong> nativo
+            </div>
             <div class="trust-line"></div>
-            <div class="trust-item"><strong>IA assistiva</strong> — humano sempre aprova</div>
+            <div class="trust-item" data-pt="<strong>IA assistiva</strong> — humano sempre aprova"
+              data-en="<strong>Assistive AI</strong> — human always approves"><strong>IA assistiva</strong> — humano
+              sempre aprova</div>
             <div class="trust-line"></div>
-            <div class="trust-item">Pensado para <strong>Alto Padrão</strong></div>
+            <div class="trust-item" data-pt="Pensado para <strong>Alto Padrão</strong>"
+              data-en="Designed for <strong>High-End</strong>">Pensado para <strong>Alto Padrão</strong></div>
           </div>
         </div>
 
         <div class="hero-visual reveal" style="transition-delay: 0.15s">
           <div class="float-card float-card-1">
-            <div class="float-label">Obras Ativas</div>
+            <div class="float-label" data-pt="Obras Ativas" data-en="Active Projects">Obras Ativas</div>
             <div class="float-value teal">12</div>
-            <div class="float-sub">↑ 3 este mês</div>
+            <div class="float-sub" data-pt="↑ 3 este mês" data-en="↑ 3 this month">↑ 3 este mês</div>
           </div>
           <div class="float-card float-card-2">
-            <div class="float-label">Score IA</div>
+            <div class="float-label" data-pt="Score IA" data-en="AI Score">Score IA</div>
             <div class="float-value">94<span style="font-size:12px;color:var(--stone)">/100</span></div>
-            <div class="float-sub">Compliance</div>
+            <div class="float-sub" data-pt="Compliance" data-en="Compliance">Compliance</div>
           </div>
 
           <div class="dashboard-card">
@@ -1479,11 +1502,14 @@
               <div class="card-title-row">
                 <div class="card-icon">🏗</div>
                 <div>
-                  <div class="card-label">Dashboard de Obras</div>
-                  <div class="card-sub">Terras Alphaville Ceará · Eusébio</div>
+                  <div class="card-label" data-pt="Dashboard de Obras" data-en="Projects Dashboard">Dashboard de Obras
+                  </div>
+                  <div class="card-sub" data-pt="Terras Alphaville Ceará · Eusébio"
+                    data-en="Terras Alphaville Ceará · Eusébio">Terras Alphaville Ceará · Eusébio</div>
                 </div>
               </div>
-              <div class="status-badge">
+              <div class="status-badge" data-pt="<span class='status-dot'></span>Ao vivo"
+                data-en="<span class='status-dot'></span>Live">
                 <span class="status-dot"></span>
                 Ao vivo
               </div>
@@ -1496,8 +1522,8 @@
                   <div class="obra-meta">Eng. Ribeiro · AMMA/2024-0471</div>
                 </div>
                 <div class="obra-badges">
-                  <span class="chip chip-ok">Em dia</span>
-                  <span class="chip chip-ai">IA ativo</span>
+                  <span class="status-badge status-ok" data-pt="Em dia" data-en="On track">Em dia</span>
+                  <span class="status-badge" data-pt="IA ativo" data-en="AI active">IA ativo</span>
                 </div>
               </div>
               <div class="obra-item">
@@ -1522,8 +1548,10 @@
             </div>
 
             <div class="ai-insight">
-              <div class="ai-icon">✦</div>
-              <div class="ai-text">
+              <div class="ai-icon" data-pt="✦" data-en="✦">✦</div>
+              <div class="ai-text"
+                data-pt="<strong>IA detectou:</strong> Lote 29 tem vistoria em 5 dias. ART de fundação expira amanhã. 2 checklists AMMA incompletos. <strong>Ação recomendada →</strong>"
+                data-en="<strong>AI detected:</strong> Lot 29 has inspection in 5 days. Foundation ART expires tomorrow. 2 AMMA checklists incomplete. <strong>Recommended action →</strong>">
                 <strong>IA detectou:</strong> Lote 29 tem vistoria em 5 dias. ART de fundação expira amanhã. 2
                 checklists AMMA incompletos. <strong>Ação recomendada →</strong>
               </div>
@@ -1538,7 +1566,7 @@
   <div class="proof-band">
     <div class="container">
       <div class="proof-inner">
-        <span class="proof-label">Regulação & Stack</span>
+        <span class="proof-label" data-pt="Regulação & Stack" data-en="Regulation & Stack">Regulação & Stack</span>
         <div class="proof-items">
           <span class="proof-item">AMMA Eusébio</span>
           <span class="proof-item">MTR Federal</span>
@@ -1555,51 +1583,73 @@
   <section class="problem-section" id="problema">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">O Problema</div>
-        <h2 class="section-title">Compliance manual<br>é risco real</h2>
+        <div class="section-label" data-pt="O Problema" data-en="The Problem">O Problema</div>
+        <h2 class="section-title" data-pt="Compliance manual<br>é risco real"
+          data-en="Manual compliance<br>is real risk">Compliance manual<br>é risco real</h2>
       </div>
       <div class="problem-grid reveal" style="transition-delay: 0.1s">
         <div class="problem-list">
           <div class="problem-item">
             <div class="problem-icon">📁</div>
             <div class="problem-text">
-              <strong>Documentos dispersos em planilhas e pastas</strong>
-              <span>ARTs, licenças e laudos controlados manualmente, sem visibilidade de vencimentos ou status por
+              <strong data-pt="Documentos dispersos em planilhas e pastas"
+                data-en="Documents scattered in spreadsheets and folders">Documentos dispersos em planilhas e
+                pastas</strong>
+              <span
+                data-pt="ARTs, licenças e laudos controlados manualmente, sem visibilidade de vencimentos ou status por obra."
+                data-en="ARTs, licenses and reports manually controlled, without visibility of expirations or status per project.">ARTs,
+                licenças e laudos controlados manualmente, sem visibilidade de vencimentos ou status por
                 obra.</span>
             </div>
           </div>
           <div class="problem-item">
             <div class="problem-icon">⚠️</div>
             <div class="problem-text">
-              <strong>Vistorias preparadas de última hora</strong>
-              <span>Checklists da AMMA preenchidos às pressas, sem análise de lacunas, gerando autuações e
+              <strong data-pt="Vistorias preparadas de última hora" data-en="Last-minute inspections prepared">Vistorias
+                preparadas de última hora</strong>
+              <span
+                data-pt="Checklists da AMMA preenchidos às pressas, sem análise de lacunas, gerando autuações e paralisações."
+                data-en="AMMA checklists filled out in a hurry, without gap analysis, generating fines and shutdowns.">Checklists
+                da AMMA preenchidos às pressas, sem análise de lacunas, gerando autuações e
                 paralisações.</span>
             </div>
           </div>
           <div class="problem-item">
             <div class="problem-icon">📋</div>
             <div class="problem-text">
-              <strong>PGRSCC e MTR montados à mão</strong>
-              <span>Planos de gerenciamento de resíduos elaborados manualmente a cada obra, consumindo horas de trabalho
+              <strong data-pt="PGRSCC e MTR montados à mão" data-en="PGRSCC and MTR assembled by hand">PGRSCC e MTR
+                montados à mão</strong>
+              <span
+                data-pt="Planos de gerenciamento de resíduos elaborados manualmente a cada obra, consumindo horas de trabalho técnico."
+                data-en="Waste management plans prepared manually for each project, consuming hours of technical work.">Planos
+                de gerenciamento de resíduos elaborados manualmente a cada obra, consumindo horas de trabalho
                 técnico.</span>
             </div>
           </div>
           <div class="problem-item">
             <div class="problem-icon">📱</div>
             <div class="problem-text">
-              <strong>RDOs inconsistentes e não revisados</strong>
-              <span>Relatórios diários de obra preenchidos sem padrão, criando gaps de rastreabilidade em
+              <strong data-pt="RDOs inconsistentes e não revisados" data-en="Inconsistent and unreviewed RDOs">RDOs
+                inconsistentes e não revisados</strong>
+              <span
+                data-pt="Relatórios diários de obra preenchidos sem padrão, criando gaps de rastreabilidade em auditorias."
+                data-en="Daily work reports filled out without standard, creating traceability gaps in audits.">Relatórios
+                diários de obra preenchidos sem padrão, criando gaps de rastreabilidade em
                 auditorias.</span>
             </div>
           </div>
         </div>
 
         <div class="problem-callout">
-          <div class="callout-quote">
+          <div class="callout-quote"
+            data-pt="Uma vistoria <span class='accent'>reprovada pela AMMA</span> pode paralisar uma obra de alto padrão por semanas."
+            data-en="An inspection <span class='accent'>failed by AMMA</span> can paralyze a high-end project for weeks.">
             Uma vistoria <span class="accent">reprovada pela AMMA</span> pode paralisar uma obra de alto padrão por
             semanas.
           </div>
-          <div class="callout-detail">
+          <div class="callout-detail"
+            data-pt="Em empreendimentos de luxo como os de Terras Alphaville Ceará, o custo de uma paralisação não é apenas financeiro — é reputacional. Construtoras e engenheiros responsáveis não podem depender de processos manuais para gerenciar risco regulatório."
+            data-en="In luxury developments like those in Terras Alphaville Ceará, the cost of a shutdown is not only financial — it is reputational. Construction companies and responsible engineers cannot depend on manual processes to manage regulatory risk.">
             Em empreendimentos de luxo como os de Terras Alphaville Ceará, o custo de uma paralisação não é apenas
             financeiro — é reputacional. Construtoras e engenheiros responsáveis não podem depender de processos manuais
             para gerenciar risco regulatório.
@@ -1607,11 +1657,13 @@
           <div class="callout-stat">
             <div class="stat-item">
               <div class="stat-num">3–5x</div>
-              <div class="stat-desc">mais rápido para preparar vistorias com IA</div>
+              <div class="stat-desc" data-pt="mais rápido para preparar vistorias com IA"
+                data-en="faster to prepare inspections with AI">mais rápido para preparar vistorias com IA</div>
             </div>
             <div class="stat-item">
               <div class="stat-num">100%</div>
-              <div class="stat-desc">dos vencimentos monitorados automaticamente</div>
+              <div class="stat-desc" data-pt="dos vencimentos monitorados automaticamente"
+                data-en="of expirations monitored automatically">dos vencimentos monitorados automaticamente</div>
             </div>
           </div>
         </div>
@@ -1624,45 +1676,63 @@
     <div class="container">
       <div class="features-header reveal">
         <div>
-          <div class="section-label">Funcionalidades</div>
-          <h2 class="section-title">Compliance inteligente,<br>do início ao fim</h2>
+          <div class="section-label" data-pt="Funcionalidades" data-en="Features">Funcionalidades</div>
+          <h2 class="section-title" data-pt="Compliance inteligente,<br>do início ao fim"
+            data-en="Smart compliance,<br>from start to finish">Compliance inteligente,<br>do início ao fim</h2>
         </div>
-        <p class="section-sub">Cada módulo do TerraTrace tem uma camada de IA que antecipa problemas, preenche lacunas e
+        <p class="section-sub"
+          data-pt="Cada módulo do TerraTrace tem uma camada de IA que antecipa problemas, preenche lacunas e reduz o trabalho manual do engenheiro."
+          data-en="Each TerraTrace module has an AI layer that anticipates problems, fills gaps and reduces the engineer's manual work.">
+          Cada módulo do TerraTrace tem uma camada de IA que antecipa problemas, preenche lacunas e
           reduz o trabalho manual do engenheiro.</p>
       </div>
 
       <div class="features-grid reveal" style="transition-delay: 0.1s">
 
         <div class="feature-card featured">
-          <div class="feature-num">F1 · DESTAQUE</div>
+          <div class="feature-num" data-pt="F1 · DESTAQUE" data-en="F1 · FEATURED">F1 · DESTAQUE</div>
           <div style="display:flex; gap:32px; flex-wrap:wrap; align-items:flex-start">
             <div style="flex:1; min-width:220px">
               <div class="feature-icon">🗄️</div>
-              <div class="feature-name">Cofre Documental com IA</div>
-              <div class="feature-desc">Centraliza todos os documentos da obra com rastreamento de vencimentos, alertas
+              <div class="feature-name" data-pt="Cofre Documental com IA" data-en="AI Document Vault">Cofre Documental
+                com IA</div>
+              <div class="feature-desc"
+                data-pt="Centraliza todos os documentos da obra com rastreamento de vencimentos, alertas de Vencido e análise automática de lacunas contra checklists da AMMA."
+                data-en="Centralizes all project documents with expiration tracking, Expired alerts, and automatic gap analysis against AMMA checklists.">
+                Centraliza todos os documentos da obra com rastreamento de vencimentos, alertas
                 de Vencido e análise automática de lacunas contra checklists da AMMA.</div>
-              <span class="feature-ai-tag">✦ Análise de gap vs. AMMA · Previsão de vencimento</span>
+              <span class="feature-ai-tag" data-pt="✦ Análise de gap vs. AMMA · Previsão de vencimento"
+                data-en="✦ Gap analysis vs. AMMA · Expiration prediction">✦ Análise de gap vs. AMMA · Previsão de
+                vencimento</span>
             </div>
             <div
               style="flex:1; min-width:220px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:16px;">
-              <div style="font-size:11px; color:var(--stone); font-family:var(--font-mono); margin-bottom:12px;">ANÁLISE
+              <div style="font-size:11px; color:var(--stone); font-family:var(--font-mono); margin-bottom:12px;"
+                data-pt="ANÁLISE IA · Obra 47" data-en="AI ANALYSIS · Project 47">ANÁLISE
                 IA · Obra 47</div>
               <div style="display:flex; flex-direction:column; gap:8px;">
                 <div style="display:flex; justify-content:space-between; font-size:12px;">
-                  <span style="color:var(--stone-light)">ART de fundação</span>
-                  <span style="color:#f87171; font-family:var(--font-mono)">Vence em 1d</span>
+                  <span style="color:var(--stone-light)" data-pt="ART de fundação" data-en="Foundation ART">ART de
+                    fundação</span>
+                  <span style="color:#f87171; font-family:var(--font-mono)" data-pt="Vence em 1d"
+                    data-en="Expires in 1d">Vence em 1d</span>
+                </div>
+                <!-- ... other items in this small card ... -->
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                  <span style="color:var(--stone-light)" data-pt="Licença ambiental"
+                    data-en="Environmental license">Licença ambiental</span>
+                  <span style="color:#4ade80; font-family:var(--font-mono)" data-pt="OK" data-en="OK">OK</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; font-size:12px;">
-                  <span style="color:var(--stone-light)">Licença ambiental</span>
-                  <span style="color:#4ade80; font-family:var(--font-mono)">OK</span>
+                  <span style="color:var(--stone-light)" data-pt="PGRSCC" data-en="PGRSCC">PGRSCC</span>
+                  <span style="color:var(--teal-light); font-family:var(--font-mono)" data-pt="Gerado por IA ✦"
+                    data-en="AI Generated ✦">Gerado por IA ✦</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; font-size:12px;">
-                  <span style="color:var(--stone-light)">PGRSCC</span>
-                  <span style="color:var(--teal-light); font-family:var(--font-mono)">Gerado por IA ✦</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:12px;">
-                  <span style="color:var(--stone-light)">Item checklist #7</span>
-                  <span style="color:#fbbf24; font-family:var(--font-mono)">Faltando</span>
+                  <span style="color:var(--stone-light)" data-pt="Item checklist #7" data-en="Checklist item #7">Item
+                    checklist #7</span>
+                  <span style="color:#fbbf24; font-family:var(--font-mono)" data-pt="Faltando"
+                    data-en="Missing">Faltando</span>
                 </div>
               </div>
             </div>
@@ -1670,40 +1740,59 @@
         </div>
 
         <div class="feature-card">
-          <div class="feature-num">F2</div>
+          <div class="feature-num" data-pt="F2" data-en="F2">F2</div>
           <div class="feature-icon">✅</div>
-          <div class="feature-name">Checklists de Vistoria AMMA</div>
-          <div class="feature-desc">Templates digitais das inspeções da AMMA com rastreamento de conclusão por obra. A
+          <div class="feature-name" data-pt="Checklists de Vistoria AMMA" data-en="AMMA Inspection Checklists">
+            Checklists de Vistoria AMMA</div>
+          <div class="feature-desc"
+            data-pt="Templates digitais das inspeções da AMMA com rastreamento de conclusão por obra. A IA revisa antes do envio e sinaliza itens incompletos ou inconsistentes."
+            data-en="Digital AMMA inspection templates with completion tracking per project. AI reviews before submission and flags incomplete or inconsistent items.">
+            Templates digitais das inspeções da AMMA com rastreamento de conclusão por obra. A
             IA revisa antes do envio e sinaliza itens incompletos ou inconsistentes.</div>
-          <span class="feature-ai-tag">✦ Revisão pré-vistoria automatizada</span>
+          <span class="feature-ai-tag" data-pt="✦ Revisão pré-vistoria automatizada"
+            data-en="✦ Automated pre-inspection review">✦ Revisão pré-vistoria automatizada</span>
         </div>
 
         <div class="feature-card">
-          <div class="feature-num">F3</div>
+          <div class="feature-num" data-pt="F3" data-en="F3">F3</div>
           <div class="feature-icon">📱</div>
-          <div class="feature-name">RDO Mobile com Detecção de Anomalias</div>
-          <div class="feature-desc">Formulário de relatório diário de obra preenchido pelo time no campo. IA detecta
+          <div class="feature-name" data-pt="RDO Mobile com Detecção de Anomalias"
+            data-en="Mobile RDO with Anomaly Detection">RDO Mobile com Detecção de Anomalias</div>
+          <div class="feature-desc"
+            data-pt="Formulário de relatório diário de obra preenchido pelo time no campo. IA detecta entradas ausentes, incomuns ou inconsistentes antes da submissão."
+            data-en="Daily work report form filled out by the team in the field. AI detects missing, unusual or inconsistent entries before submission.">
+            Formulário de relatório diário de obra preenchido pelo time no campo. IA detecta
             entradas ausentes, incomuns ou inconsistentes antes da submissão.</div>
-          <span class="feature-ai-tag">✦ Detecção de anomalias em tempo real</span>
+          <span class="feature-ai-tag" data-pt="✦ Detecção de anomalias em tempo real"
+            data-en="✦ Real-time anomaly detection">✦ Detecção de anomalias em tempo real</span>
         </div>
 
         <div class="feature-card">
-          <div class="feature-num">F4</div>
+          <div class="feature-num" data-pt="F4" data-en="F4">F4</div>
           <div class="feature-icon">♻️</div>
-          <div class="feature-name">Geração Automática de PGRSCC</div>
-          <div class="feature-desc">A IA redige o Plano de Gerenciamento de Resíduos a partir dos dados do projeto. O
+          <div class="feature-name" data-pt="Geração Automática de PGRSCC" data-en="Automatic PGRSCC Generation">Geração
+            Automática de PGRSCC</div>
+          <div class="feature-desc"
+            data-pt="A IA redige o Plano de Gerenciamento de Resíduos a partir dos dados do projeto. O engenheiro revisa e assina — de horas para minutos."
+            data-en="AI drafts the Waste Management Plan from project data. The engineer reviews and signs — from hours to minutes.">
+            A IA redige o Plano de Gerenciamento de Resíduos a partir dos dados do projeto. O
             engenheiro revisa e assina — de horas para minutos.</div>
-          <span class="feature-ai-tag">✦ Rascunho IA · Aprovação humana</span>
+          <span class="feature-ai-tag" data-pt="✦ Rascunho IA · Aprovação humana"
+            data-en="✦ AI Draft · Human approval">✦ Rascunho IA · Aprovação humana</span>
         </div>
 
       </div>
 
       <div class="features-cta-bar reveal" style="transition-delay: 0.2s">
         <div class="cta-bar-text">
-          <strong>A IA prepara. O engenheiro decide. Sempre.</strong>
-          <span>Todas as ações geradas por IA passam por revisão humana antes de qualquer submissão regulatória.</span>
+          <strong data-pt="A IA prepara. O engenheiro decide. Sempre."
+            data-en="AI prepares. The engineer decides. Always.">A IA prepara. O engenheiro decide. Sempre.</strong>
+          <span
+            data-pt="Todas as ações geradas por IA passam por revisão humana antes de qualquer submissão regulatória."
+            data-en="All AI-generated actions undergo human review before any regulatory submission.">Todas as ações
+            geradas por IA passam por revisão humana antes de qualquer submissão regulatória.</span>
         </div>
-        <a href="#contato" class="btn-primary" style="flex-shrink:0">
+        <a href="#contato" class="btn-primary" style="flex-shrink:0" data-pt="Quero testar" data-en="I want to test">
           Quero testar
           <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -1717,26 +1806,40 @@
   <section class="how-section" id="como-funciona">
     <div class="container">
       <div class="reveal" style="text-align:center">
-        <div class="section-label" style="justify-content:center">Como Funciona</div>
-        <h2 class="section-title" style="text-align:center">De obra caótica a<br>compliance em controle</h2>
+        <div class="section-label" style="justify-content:center" data-pt="Como Funciona" data-en="How It Works">Como
+          Funciona</div>
+        <h2 class="section-title" style="text-align:center" data-pt="De obra caótica a<br>compliance em controle"
+          data-en="From chaotic project to<br>compliance in control">De obra caótica a<br>compliance em controle</h2>
       </div>
       <div class="how-grid reveal" style="transition-delay:0.1s">
         <div class="how-step">
           <div class="step-num">01</div>
-          <div class="step-title">Cadastre suas obras</div>
-          <div class="step-desc">Importe dados da obra, engenheiro responsável e regulação aplicável. O TerraTrace
+          <div class="step-title" data-pt="Cadastre suas obras" data-en="Register your projects">Cadastre suas obras
+          </div>
+          <div class="step-desc"
+            data-pt="Importe dados da obra, engenheiro responsável e regulação aplicável. O TerraTrace configura automaticamente os requisitos AMMA para cada projeto."
+            data-en="Import project data, responsible engineer and applicable regulation. TerraTrace automatically configures AMMA requirements for each project.">
+            Importe dados da obra, engenheiro responsável e regulação aplicável. O TerraTrace
             configura automaticamente os requisitos AMMA para cada projeto.</div>
         </div>
         <div class="how-step">
           <div class="step-num">02</div>
-          <div class="step-title">IA monitora e antecipa</div>
-          <div class="step-desc">O sistema analisa continuamente documentos, prazos e checklists. Alertas inteligentes
+          <div class="step-title" data-pt="IA monitora e antecipa" data-en="AI monitors and anticipates">IA monitora e
+            antecipa</div>
+          <div class="step-desc"
+            data-pt="O sistema analisa continuamente documentos, prazos e checklists. Alertas inteligentes chegam antes que os problemas aconteçam — não depois."
+            data-en="The system continuously analyzes documents, deadlines and checklists. Smart alerts arrive before problems happen — not after.">
+            O sistema analisa continuamente documentos, prazos e checklists. Alertas inteligentes
             chegam antes que os problemas aconteçam — não depois.</div>
         </div>
         <div class="how-step">
           <div class="step-num">03</div>
-          <div class="step-title">Engenheiro revisa e aprova</div>
-          <div class="step-desc">Toda ação gerada por IA — de PGRSCCs a análises de checklist — passa pelo engenheiro
+          <div class="step-title" data-pt="Engenheiro revisa e aprova" data-en="Engineer reviews and approves">
+            Engenheiro revisa e aprova</div>
+          <div class="step-desc"
+            data-pt="Toda ação gerada por IA — de PGRSCCs a análises de checklist — passa pelo engenheiro responsável. IA prepara. Humano decide."
+            data-en="Every AI-generated action — from PGRSCCs to checklist analyses — passes through the responsible engineer. AI prepares. Human decides.">
+            Toda ação gerada por IA — de PGRSCCs a análises de checklist — passa pelo engenheiro
             responsável. IA prepara. Humano decide.</div>
         </div>
       </div>
@@ -1747,9 +1850,13 @@
   <section class="roadmap-section" id="roadmap">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">Roadmap</div>
-        <h2 class="section-title">De compliance a<br>inteligência ESG</h2>
-        <p class="section-sub" style="margin-bottom:0">TerraTrace evolui em três fases: da conformidade regulatória ao
+        <div class="section-label" data-pt="Roadmap" data-en="Roadmap">Roadmap</div>
+        <h2 class="section-title" data-pt="De compliance a<br>inteligência ESG"
+          data-en="From compliance to<br>ESG intelligence">De compliance a<br>inteligência ESG</h2>
+        <p class="section-sub" style="margin-bottom:0"
+          data-pt="TerraTrace evolui em três fases: da conformidade regulatória ao posicionamento ESG e ao marketplace sustentável."
+          data-en="TerraTrace evolves in three phases: from regulatory compliance to ESG positioning and the sustainable marketplace.">
+          TerraTrace evolui em três fases: da conformidade regulatória ao
           posicionamento ESG e ao marketplace sustentável.</p>
       </div>
 
@@ -1762,19 +1869,25 @@
           </div>
           <div class="phase-content">
             <div class="phase-tag">
-              <span class="phase-num">Fase 1 · Ativo</span>
+              <span class="phase-num" data-pt="Fase 1 · Ativo" data-en="Phase 1 · Active">Fase 1 · Ativo</span>
             </div>
-            <div class="phase-title">MVP de Compliance</div>
-            <div class="phase-desc">Cofre documental, checklists AMMA, RDO mobile, geração de PGRSCC — com IA assistiva
+            <div class="phase-title" data-pt="MVP de Compliance" data-en="Compliance MVP">MVP de Compliance</div>
+            <div class="phase-desc"
+              data-pt="Cofre documental, checklists AMMA, RDO mobile, geração de PGRSCC — com IA assistiva em cada módulo. Foco em construtoras de alto padrão em Eusébio, Ceará."
+              data-en="Document vault, AMMA checklists, mobile RDO, PGRSCC generation — with assistive AI in each module. Focus on high-end construction companies in Eusébio, Ceará.">
+              Cofre documental, checklists AMMA, RDO mobile, geração de PGRSCC — com IA assistiva
               em cada módulo. Foco em construtoras de alto padrão em Eusébio, Ceará.</div>
             <div class="phase-features">
-              <span class="phase-chip">Cofre Documental</span>
-              <span class="phase-chip">Checklists AMMA</span>
-              <span class="phase-chip">RDO Mobile</span>
-              <span class="phase-chip">PGRSCC</span>
-              <span class="phase-chip ai-chip">✦ Análise de gap IA</span>
-              <span class="phase-chip ai-chip">✦ PGRSCC rascunho IA</span>
-              <span class="phase-chip ai-chip">✦ Score de compliance</span>
+              <span class="phase-chip" data-pt="Cofre Documental" data-en="Document Vault">Cofre Documental</span>
+              <span class="phase-chip" data-pt="Checklists AMMA" data-en="AMMA Checklists">Checklists AMMA</span>
+              <span class="phase-chip" data-pt="RDO Mobile" data-en="Mobile RDO">RDO Mobile</span>
+              <span class="phase-chip" data-pt="PGRSCC" data-en="PGRSCC">PGRSCC</span>
+              <span class="phase-chip ai-chip" data-pt="✦ Análise de gap IA" data-en="✦ AI Gap Analysis">✦ Análise de
+                gap IA</span>
+              <span class="phase-chip ai-chip" data-pt="✦ PGRSCC rascunho IA" data-en="✦ AI PGRSCC Draft">✦ PGRSCC
+                rascunho IA</span>
+              <span class="phase-chip ai-chip" data-pt="✦ Score de compliance" data-en="✦ Compliance Score">✦ Score de
+                compliance</span>
             </div>
           </div>
         </div>
@@ -1786,18 +1899,26 @@
           </div>
           <div class="phase-content">
             <div class="phase-tag">
-              <span class="phase-num">Fase 2 · Em roadmap</span>
+              <span class="phase-num" data-pt="Fase 2 · Em roadmap" data-en="Phase 2 · In roadmap">Fase 2 · Em
+                roadmap</span>
             </div>
-            <div class="phase-title">Inteligência ESG</div>
-            <div class="phase-desc">Rastreamento de certificações verdes (LEED, AQUA-HQE), dashboards de pegada de
+            <div class="phase-title" data-pt="Inteligência ESG" data-en="ESG Intelligence">Inteligência ESG</div>
+            <div class="phase-desc"
+              data-pt="Rastreamento de certificações verdes (LEED, AQUA-HQE), dashboards de pegada de carbono e relatórios ESG gerados automaticamente — posicionando construtoras para atrair capital de impacto nacional e internacional."
+              data-en="Tracking of green certifications (LEED, AQUA-HQE), carbon footprint dashboards and ESG reports automatically generated — positioning construction companies to attract national and international impact capital.">
+              Rastreamento de certificações verdes (LEED, AQUA-HQE), dashboards de pegada de
               carbono e relatórios ESG gerados automaticamente — posicionando construtoras para atrair capital de
               impacto nacional e internacional.</div>
             <div class="phase-features">
-              <span class="phase-chip">Certificação Verde</span>
-              <span class="phase-chip">Dashboard de Carbono</span>
-              <span class="phase-chip">Relatórios ESG</span>
-              <span class="phase-chip ai-chip">✦ Narrativa ESG por IA</span>
-              <span class="phase-chip ai-chip">✦ Score de prontidão verde</span>
+              <span class="phase-chip" data-pt="Certificação Verde" data-en="Green Certification">Certificação
+                Verde</span>
+              <span class="phase-chip" data-pt="Dashboard de Carbono" data-en="Carbon Dashboard">Dashboard de
+                Carbono</span>
+              <span class="phase-chip" data-pt="Relatórios ESG" data-en="ESG Reports">Relatórios ESG</span>
+              <span class="phase-chip ai-chip" data-pt="✦ Narrativa ESG por IA" data-en="✦ AI ESG Narrative">✦ Narrativa
+                ESG por IA</span>
+              <span class="phase-chip ai-chip" data-pt="✦ Score de prontidão verde" data-en="✦ Green readiness score">✦
+                Score de prontidão verde</span>
             </div>
           </div>
         </div>
@@ -1809,18 +1930,25 @@
           </div>
           <div class="phase-content">
             <div class="phase-tag">
-              <span class="phase-num">Fase 3 · Visão</span>
+              <span class="phase-num" data-pt="Fase 3 · Visão" data-en="Phase 3 · Vision">Fase 3 · Visão</span>
             </div>
-            <div class="phase-title">Marketplace de Materiais Sustentáveis</div>
-            <div class="phase-desc">Plataforma B2B conectando construtoras verificadas a fornecedores de materiais
+            <div class="phase-title" data-pt="Marketplace de Materiais Sustentáveis"
+              data-en="Sustainable Materials Marketplace">Marketplace de Materiais Sustentáveis</div>
+            <div class="phase-desc"
+              data-pt="Plataforma B2B conectando construtoras verificadas a fornecedores de materiais sustentáveis — com IA pareando especificações técnicas, conformidade regulatória e impacto ESG. Corredor estratégico Miami–Fortaleza para capital americano e europeu."
+              data-en="B2B platform connecting verified construction companies to sustainable material suppliers — with AI pairing technical specifications, regulatory compliance and ESG impact. Strategic Miami–Fortaleza corridor for American and European capital.">
+              Plataforma B2B conectando construtoras verificadas a fornecedores de materiais
               sustentáveis — com IA pareando especificações técnicas, conformidade regulatória e impacto ESG. Corredor
               estratégico Miami–Fortaleza para capital americano e europeu.</div>
             <div class="phase-features">
-              <span class="phase-chip">Marketplace B2B</span>
-              <span class="phase-chip">Fornecedores ESG</span>
-              <span class="phase-chip">Corredor Miami–Fortaleza</span>
-              <span class="phase-chip ai-chip">✦ Matching IA por especificação</span>
-              <span class="phase-chip ai-chip">✦ Simulação de impacto ESG</span>
+              <span class="phase-chip" data-pt="Marketplace B2B" data-en="B2B Marketplace">Marketplace B2B</span>
+              <span class="phase-chip" data-pt="Fornecedores ESG" data-en="ESG Suppliers">Fornecedores ESG</span>
+              <span class="phase-chip" data-pt="Corredor Miami–Fortaleza" data-en="Miami–Fortaleza Corridor">Corredor
+                Miami–Fortaleza</span>
+              <span class="phase-chip ai-chip" data-pt="✦ Matching IA por especificação"
+                data-en="✦ AI Specification Matching">✦ Matching IA por especificação</span>
+              <span class="phase-chip ai-chip" data-pt="✦ Simulação de impacto ESG" data-en="✦ ESG Impact Simulation">✦
+                Simulação de impacto ESG</span>
             </div>
           </div>
         </div>
@@ -1833,25 +1961,32 @@
   <section class="cta-section" id="contato">
     <div class="container">
       <div class="cta-block reveal">
-        <div class="section-label" style="justify-content:center">Acesso Beta</div>
-        <h2 class="cta-title">
+        <div class="section-label" style="justify-content:center" data-pt="Acesso Beta" data-en="Beta Access">Acesso
+          Beta</div>
+        <h2 class="cta-title" data-pt="Pronto para deixar a<br>IA cuidar do <span class='accent'>compliance</span>?"
+          data-en="Ready to let<br>AI take care of <span class='accent'>compliance</span>?">
           Pronto para deixar a<br>IA cuidar do <span class="accent">compliance</span>?
         </h2>
-        <p class="cta-sub">
+        <p class="cta-sub"
+          data-pt="Estamos abrindo o acesso beta para engenheiros responsáveis e construtoras de alto padrão em Eusébio e Fortaleza. Vagas limitadas."
+          data-en="We are opening beta access for responsible engineers and high-end construction companies in Eusébio and Fortaleza. Limited vacancies.">
           Estamos abrindo o acesso beta para engenheiros responsáveis e construtoras de alto padrão em Eusébio e
           Fortaleza. Vagas limitadas.
         </p>
         <div class="cta-actions">
-          <a href="mailto:contato@terratrace.com.br" class="btn-primary" style="font-size:16px; padding:16px 32px">
+          <a href="mailto:contato@terratrace.com.br" class="btn-primary" style="font-size:16px; padding:16px 32px"
+            data-pt="Solicitar Acesso Beta" data-en="Request Beta Access">
             Solicitar Acesso Beta
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </a>
-          <a href="mailto:contato@terratrace.com.br" class="btn-secondary"
-            style="font-size:16px; padding:16px 32px">Falar com a equipe</a>
+          <a href="mailto:contato@terratrace.com.br" class="btn-secondary" style="font-size:16px; padding:16px 32px"
+            data-pt="Falar com a equipe" data-en="Talk to the team">Falar com a equipe</a>
         </div>
-        <div class="cta-note">terratrace.com.br · contato@terratrace.com.br · Fortaleza, Ceará, Brasil</div>
+        <div class="cta-note" data-pt="terratrace.com.br · contato@terratrace.com.br · Fortaleza, Ceará, Brasil"
+          data-en="terratrace.com.br · contato@terratrace.com.br · Fortaleza, Ceará, Brazil">terratrace.com.br ·
+          contato@terratrace.com.br · Fortaleza, Ceará, Brasil</div>
       </div>
     </div>
   </section>
@@ -1865,13 +2000,15 @@
             <div class="nav-logo-mark" style="width:28px;height:28px;font-size:13px">TT</div>
             <span class="footer-logo">TerraTrace</span>
           </div>
-          <span class="footer-tagline">Compliance inteligente para construção de alto padrão</span>
+          <span class="footer-tagline" data-pt="Compliance inteligente para construção de alto padrão"
+            data-en="Smart compliance for high-end construction">Compliance inteligente para construção de alto
+            padrão</span>
         </div>
         <div class="footer-links">
-          <a href="#features">Funcionalidades</a>
-          <a href="#roadmap">Roadmap</a>
-          <a href="/contato.html">Contato</a>
-          <a href="#">Privacidade</a>
+          <a href="#features" data-pt="Funcionalidades" data-en="Features">Funcionalidades</a>
+          <a href="#como-funciona" data-pt="Como Funciona" data-en="How It Works">Como Funciona</a>
+          <a href="#roadmap" data-pt="Roadmap" data-en="Roadmap">Roadmap</a>
+          <a href="#contato" data-pt="Solicitar Acesso" data-en="Request Access">Solicitar Acesso</a>
         </div>
         <span class="footer-copy">© 2026 TerraTrace · terratrace.com.br</span>
       </div>
@@ -2163,57 +2300,81 @@
       <!-- Form Content -->
       <div id="waitlist-form-container">
         <div class="modal-header">
-          <h3 class="modal-title">TerraTrace — Acesso Beta</h3>
-          <p class="modal-desc">Estamos selecionando construtoras parceiras para acesso antecipado à plataforma.
+          <h3 class="modal-title" data-pt="TerraTrace — Acesso Beta" data-en="TerraTrace — Beta Access">TerraTrace —
+            Acesso Beta</h3>
+          <p class="modal-desc"
+            data-pt="Estamos selecionando construtoras parceiras para acesso antecipado à plataforma. Preencha abaixo e entraremos em contato em até 48 horas."
+            data-en="We are selecting partner construction companies for early access to the platform. Fill in below and we will contact you within 48 hours.">
+            Estamos selecionando construtoras parceiras para acesso antecipado à plataforma.
             Preencha abaixo e entraremos em contato em até 48 horas.</p>
         </div>
 
         <form id="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
           <div class="form-group">
-            <label class="form-label" for="wl-nome">Nome completo <span>*</span></label>
-            <input type="text" id="wl-nome" name="nome" class="form-input" required placeholder="João Silva">
+            <label class="form-label" for="wl-nome" data-pt="Nome completo <span>*</span>"
+              data-en="Full name <span>*</span>">Nome completo <span>*</span></label>
+            <input type="text" id="wl-nome" name="nome" class="form-input" required placeholder="João Silva"
+              data-pt="João Silva" data-en="John Doe">
           </div>
           <div class="form-group">
-            <label class="form-label" for="wl-email">E-mail corporativo <span>*</span></label>
+            <label class="form-label" for="wl-email" data-pt="E-mail corporativo <span>*</span>"
+              data-en="Corporate email <span>*</span>">E-mail corporativo <span>*</span></label>
             <input type="email" id="wl-email" name="email" class="form-input" required
-              placeholder="joao@construtora.com.br">
+              placeholder="joao@construtora.com.br" data-pt="joao@construtora.com.br" data-en="john@company.com">
           </div>
           <div class="form-group">
-            <label class="form-label" for="wl-empresa">Empresa / Construtora <span>*</span></label>
+            <label class="form-label" for="wl-empresa" data-pt="Empresa / Construtora <span>*</span>"
+              data-en="Company / Construction <span>*</span>">Empresa / Construtora <span>*</span></label>
             <input type="text" id="wl-empresa" name="empresa" class="form-input" required
-              placeholder="Ex: Engenharia Alto Padrão SA">
+              placeholder="Ex: Engenharia Alto Padrão SA" data-pt="Ex: Engenharia Alto Padrão SA"
+              data-en="Ex: High-End Engineering SA">
           </div>
           <div class="form-group">
-            <label class="form-label">Quantas obras ativas você gerencia? <span>*</span></label>
+            <label class="form-label" data-pt="Quantas obras ativas você gerencia? <span>*</span>"
+              data-en="How many active projects do you manage? <span>*</span>">Quantas obras ativas você gerencia?
+              <span>*</span></label>
             <div class="radio-grid">
-              <label class="radio-label"><input type="radio" name="obras" value="1" required> <span>1
+              <label class="radio-label"><input type="radio" name="obras" value="1" required> <span data-pt="1 obra"
+                  data-en="1 project">1
                   obra</span></label>
-              <label class="radio-label"><input type="radio" name="obras" value="2-5"> <span>2 a 5 obras</span></label>
-              <label class="radio-label"><input type="radio" name="obras" value="6-10"> <span>6 a 10
+              <label class="radio-label"><input type="radio" name="obras" value="2-5"> <span data-pt="2 a 5 obras"
+                  data-en="2 to 5 projects">2 a 5 obras</span></label>
+              <label class="radio-label"><input type="radio" name="obras" value="6-10"> <span data-pt="6 a 10 obras"
+                  data-en="6 to 10 projects">6 a 10
                   obras</span></label>
-              <label class="radio-label"><input type="radio" name="obras" value="10+"> <span>Mais de 10
+              <label class="radio-label"><input type="radio" name="obras" value="10+"> <span data-pt="Mais de 10 obras"
+                  data-en="More than 10 projects">Mais de 10
                   obras</span></label>
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label" for="wl-desafio">Maior desafio de compliance <span>(opcional)</span></label>
+            <label class="form-label" for="wl-desafio" data-pt="Maior desafio de compliance <span>(opcional)</span>"
+              data-en="Main compliance challenge <span>(optional)</span>">Maior desafio de compliance
+              <span>(opcional)</span></label>
             <textarea id="wl-desafio" name="desafio" class="form-input"
-              placeholder="Ex: planilhas desatualizadas, riscos de embargo..."></textarea>
+              placeholder="Ex: planilhas desatualizadas, riscos de embargo..."
+              data-pt="Ex: planilhas desatualizadas, riscos de embargo..."
+              data-en="Ex: outdated spreadsheets, risk of embargo..."></textarea>
           </div>
           <div class="form-group">
-            <label class="form-label" for="wl-whatsapp">WhatsApp <span>*</span></label>
+            <label class="form-label" for="wl-whatsapp" data-pt="WhatsApp <span>*</span>"
+              data-en="WhatsApp <span>*</span>">WhatsApp <span>*</span></label>
             <input type="tel" id="wl-whatsapp" name="whatsapp" class="form-input" required
-              placeholder="(85) 9 9999-9999">
+              placeholder="(85) 9 9999-9999" data-pt="(85) 9 9999-9999" data-en="+55 (85) 9 9999-9999">
           </div>
-          <button type="submit" class="btn-submit" id="wl-submit-btn">Solicitar Acesso Beta</button>
+          <button type="submit" class="btn-submit" id="wl-submit-btn" data-pt="Solicitar Acesso Beta"
+            data-en="Request Beta Access">Solicitar Acesso Beta</button>
         </form>
       </div>
 
       <!-- Success Content -->
       <div id="waitlist-success" class="success-state">
         <div class="success-icon">✓</div>
-        <h3 class="success-title">Obrigado!</h3>
-        <p class="success-desc">Entraremos em contato pelo WhatsApp em até 48 horas.<br><br>Seja bem-vindo à nova era do
+        <h3 class="success-title" data-pt="Obrigado!" data-en="Thank you!">Obrigado!</h3>
+        <p class="success-desc"
+          data-pt="Entraremos em contato pelo WhatsApp em até 48 horas.<br><br>Seja bem-vindo à nova era do compliance regulatório."
+          data-en="We will contact you via WhatsApp within 48 hours.<br><br>Welcome to the new era of regulatory compliance.">
+          Entraremos em contato pelo WhatsApp em até 48 horas.<br><br>Seja bem-vindo à nova era do
           compliance regulatório.</p>
       </div>
     </div>
