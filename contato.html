@@ -1164,8 +1164,20 @@
       }
 
       .nav-cta {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .btn-nav-login,
+      .btn-nav-primary {
         display: none;
-        /* Hide desktop CTA */
+        /* Hide desktop CTA buttons */
+      }
+
+      .lang-btn {
+        padding: 3px 6px;
+        font-size: 11px;
       }
 
       /* Hamburger Button */
@@ -1344,13 +1356,6 @@
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
-    <div class="mobile-lang">
-      <div class="lang-toggle" style="justify-content: flex-start; border: none; background: rgba(255,255,255,0.05);">
-        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')" title="Português (Brasil)">🇧🇷
-          PT</button>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇺🇸 EN</button>
-      </div>
-    </div>
     <ul class="mobile-links">
       <li><a href="/#como-funciona" data-pt="Como Funciona" data-en="How It Works" onclick="toggleMenu()">Como
           Funciona</a></li>
