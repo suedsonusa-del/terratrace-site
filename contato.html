@@ -1041,48 +1041,49 @@
       border-color: rgba(255, 255, 255, 0.6);
     }
 
-    /* FOOTER */
+    /* ── FOOTER ── */
     footer {
-      background: var(--dark);
-      padding: 48px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 48px 0;
+      position: relative;
+      z-index: 1;
     }
 
     .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
     }
 
-    .footer-logo-text {
-      font-size: 15px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .footer-logo-text span {
-      color: var(--terracotta);
+    .footer-tagline {
+      font-size: 12px;
+      color: var(--stone);
     }
 
     .footer-links {
       display: flex;
-      gap: 24px;
-      list-style: none;
+      gap: 28px;
+      flex-wrap: wrap;
     }
 
     .footer-links a {
-      font-size: 13px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.35);
+      font-size: 12px;
+      color: var(--stone);
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -1092,9 +1093,9 @@
     }
 
     .footer-copy {
-      font-size: 13px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.25);
+      font-size: 12px;
+      color: var(--stone);
+      font-family: var(--font-mono);
     }
 
     /* REVEAL - visible by default, animated when JS loads */
@@ -1505,29 +1506,39 @@
     </div>
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    <div class="footer-inner">
-      <a href="/" class="footer-logo">
-        <svg width="34" height="30" viewBox="0 0 100 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="6" y="16" width="38" height="8" rx="3" fill="#1A9E8F" />
-          <rect x="17" y="16" width="8" height="46" rx="3" fill="#1A9E8F" />
-          <rect x="54" y="60" width="36" height="7" rx="3" fill="#26D4BF" opacity="0.55" />
-          <rect x="66" y="16" width="9" height="52" rx="3" fill="#26D4BF" />
-          <circle cx="47" cy="44" r="8" fill="none" stroke="#26D4BF" stroke-width="2" opacity="0.3" />
-          <circle cx="47" cy="44" r="3.5" fill="#26D4BF" />
-        </svg>
-        <span class="footer-logo-text"
-          style="font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--text-dark); letter-spacing: -0.3px;">Terra<span
-            style="color: #26D4BF">Trace</span></span>
-      </a>
-      <ul class="footer-links">
-        <li><a href="/#como-funciona" data-pt="Como Funciona" data-en="How It Works">Como Funciona</a></li>
-        <li><a href="/#funcionalidades" data-pt="Funcionalidades" data-en="Features">Funcionalidades</a></li>
-        <li><a href="/#roadmap" data-pt="Roadmap" data-en="Roadmap">Roadmap</a></li>
-        <li><a href="/contato.html" data-pt="Contato" data-en="Contact">Contato</a></li>
-      </ul>
-      <span class="footer-copy" data-pt="© 2026 TerraTrace. Todos os direitos reservados."
-        data-en="© 2026 TerraTrace. All rights reserved.">© 2026 TerraTrace. Todos os direitos reservados.</span>
+    <div style="max-width: 1160px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 1;">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div style="display:flex; align-items:center; gap:8px">
+            <div class="footer-logo" style="display: flex; align-items: center; gap: 10px;">
+              <svg width="34" height="30" viewBox="0 0 100 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="16" width="38" height="8" rx="3" fill="#1A9E8F" />
+                <rect x="17" y="16" width="8" height="46" rx="3" fill="#1A9E8F" />
+                <rect x="54" y="60" width="36" height="7" rx="3" fill="#26D4BF" opacity="0.55" />
+                <rect x="66" y="16" width="9" height="52" rx="3" fill="#26D4BF" />
+                <circle cx="47" cy="44" r="8" fill="none" stroke="#26D4BF" stroke-width="2" opacity="0.3" />
+                <circle cx="47" cy="44" r="3.5" fill="#26D4BF" />
+              </svg>
+              <span
+                style="font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--text-dark); letter-spacing: -0.3px;">Terra<span
+                  style="color: #26D4BF">Trace</span></span>
+            </div>
+          </div>
+          <span class="footer-tagline" data-pt="Compliance inteligente para construção de alto padrão"
+            data-en="Smart compliance for high-end construction">Compliance inteligente para construção de alto
+            padrão</span>
+        </div>
+        <div class="footer-links" style="display: flex; gap: 28px; flex-wrap: wrap;">
+          <a href="/#features" data-pt="Funcionalidades" data-en="Features">Funcionalidades</a>
+          <a href="/#como-funciona" data-pt="Como Funciona" data-en="How It Works">Como Funciona</a>
+          <a href="/#roadmap" data-pt="Roadmap" data-en="Roadmap">Roadmap</a>
+          <a href="/#contato" data-pt="Solicitar Acesso" data-en="Request Access">Solicitar Acesso</a>
+          <a href="/contato.html" data-pt="Contato" data-en="Contact">Contato</a>
+        </div>
+        <span class="footer-copy">© 2026 TerraTrace · terratrace.com.br</span>
+      </div>
     </div>
   </footer>
 
